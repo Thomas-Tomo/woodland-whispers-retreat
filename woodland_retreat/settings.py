@@ -30,9 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['woodland-whispers-retreat.herokuapp.com', '8000-thomastomo-woodlandwhis-e3wnovowvr4.ws-eu99.gitpod.io', 'localhost']
-
-
+ALLOWED_HOSTS = ['woodland-whispers-retreat.herokuapp.com', '8000-thomastomo-woodlandwhis-e3wnovowvr4.ws-eu100.gitpod.io', 'localhost']
 
 
 # Application definition
