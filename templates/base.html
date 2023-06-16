@@ -11,11 +11,13 @@
     <meta name="description" content="Woodland Whispers Retreat">
     <meta name="keywords" content="cabin, log cabin, holiday retreat, lake, fishing, kayaking, relax, family getaway">
     <meta name="author" content="Thomas-Tomo Domitrovic">
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
         integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script src="https://kit.fontawesome.com/3b53fd0ccc.js" crossorigin="anonymous"></script>
-    <title>Woodland Whispers Retreat</title>
+    <!-- CSS -->
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{% block title %}Woodland Whispers Retreat{% endblock %}</title>
 </head>
 
 <body>
@@ -89,7 +91,9 @@
             </div>
         </div>
     </footer>
-
+    <!-- Font Awesome Script -->
+    <script src="https://kit.fontawesome.com/3b53fd0ccc.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap Script -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>
