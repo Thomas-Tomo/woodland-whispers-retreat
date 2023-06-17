@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Welcome to Woodland Whispers Retreat</h2>
+            <p>Some introductory text about your log cabin booking website.</p>
+            <a href="{% url 'account_signup' %}" class="btn btn-primary">Sign Up</a>
+        </div>
+        <div class="col-md-6">
+            <!-- Other content for the second column -->
+        </div>
+    </div>
+
+    <div id="cabin-carousel" class="carousel slide" data-ride="carousel">
+        <!-- Carousel items -->
+        <div class="carousel-inner">
+            {% for cabin in cabins %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ cabin.image.url }}" class="d-block w-100" alt="{{ cabin.name }}">
+                <div class="carousel-caption">
+                    <h3>{{ cabin.name }}</h3>
+                    <p>{{ cabin.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Carousel navigation indicators -->
+        <ol class="carousel-indicators">
+            {% for cabin in cabins %}
+            <li data-target="#cabin-carousel" data-slide-to="{{ forloop.counter0 }}"
+                {% if forloop.first %}class="active" {% endif %}></li>
+            {% endfor %}
+        </ol>
+
+        <!-- Carousel controls -->
+        <a class="carousel-control-prev" href="#cabin-carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#cabin-carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+
+</div>
+{% endblock %}
