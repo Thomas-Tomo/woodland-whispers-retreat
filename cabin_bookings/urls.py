@@ -2,6 +2,6 @@ from . import views
 from django.urls import path
 
 
-url_patterns = [
-
+urlpatterns = [
+    path('', views.cabin_list, name='home'),
 ]
