@@ -1,3 +1,30 @@
 .navbar {
     padding: 1.5rem 8rem;
 }
+
+.custom-row {
+    padding: 3rem 0;
+}
+
+.custom-heading {
+    color: green;
+}
+
+.carousel-item {
+    text-align: center;
+}
+
+.carousel-item img {
+    max-height: 80rem;
+    /* Adjust the value as needed */
+    object-fit: contain;
+}
+
+.carousel-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    color: #fff;
+}
