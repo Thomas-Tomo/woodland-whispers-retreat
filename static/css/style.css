@@ -42,7 +42,8 @@ body {
 }
 
 .custom-heading {
-    color: green;
+    color: #ffffff;
+    margin-top: 1rem;
 }
 
 .card {
@@ -58,4 +59,15 @@ body {
 
 #cabin-carousel {
     width: 60%;
+}
+
+/* Media Queries */
+
+/* Media Queries for max-width: 576px (small screens) */
+
+@media (max-width:576px) {
+
+    .custom-heading {
+        font-size: 1.5rem;
+    }
 }
