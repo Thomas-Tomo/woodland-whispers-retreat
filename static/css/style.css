@@ -1,9 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Domine&family=Lora:ital,wght@1,600&display=swap');
 
+/* General rules */
+
 body {
     background-color: #4D8A6B;
     font-family: 'Lora', 'Domine', serif;
 }
+
+/* Navigation bar */
 
 .navbar {
     padding-left: 2rem;
@@ -26,6 +30,10 @@ body {
 }
 
 .navbar-toggler {
+    background-color: #c59d74;
+}
+
+.dropdown-menu {
     background-color: #c59d74;
 }
 
