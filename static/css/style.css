@@ -1,6 +1,6 @@
-.navbar {
-    padding: 1.5rem 8rem;
-}
+@import url('https://fonts.googleapis.com/css2?family=Domine&family=Lora:ital,wght@1,600&display=swap');
+
+.navbar {}
 
 .custom-row {
     padding: 3rem 0;
