@@ -23,7 +23,11 @@
 
                 </div>
                 <div class="card-footer d-flex justify-content-center">
+                    {% if user.is_authenticated %}
                     <button type="button" class="btn btn-success">Book Now</button>
+                    {% else %}
+                    <a href="#" class="btn btn-danger">Sign Up</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
