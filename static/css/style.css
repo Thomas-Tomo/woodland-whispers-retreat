@@ -1,6 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Domine&family=Lora:ital,wght@1,600&display=swap');
 
-.navbar {}
+body {
+    background-color: #4D8A6B;
+    font-family: 'Lora', 'Domine', serif;
+}
+
+.navbar {
+    padding-left: 2rem;
+    background-color: #502038;
+}
+
+.navbar-logo {
+    max-height: 3.5rem;
+    max-width: auto;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.nav-link {
+    color: #ffffff;
+}
+
+.nav-link:hover {
+    color: #4D8A6B;
+}
+
+.navbar-toggler {
+    background-color: #c59d74;
+}
 
 .custom-row {
     padding: 3rem 0;
