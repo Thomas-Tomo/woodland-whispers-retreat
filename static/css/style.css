@@ -37,17 +37,13 @@ body {
     background-color: #c59d74;
 }
 
-.custom-row {
-    padding: 3rem 0;
-}
-
 .custom-heading {
     color: #ffffff;
     margin-top: 1rem;
 }
 
 .card {
-    height: 100%;
+    background-color: #c59d74;
 }
 
 .card-body {
@@ -58,7 +54,7 @@ body {
 }
 
 #cabin-carousel {
-    width: 60%;
+    width: 80%;
 }
 
 /* Media Queries */
@@ -69,5 +65,18 @@ body {
 
     .custom-heading {
         font-size: 1.5rem;
+    }
+}
+
+/* Media Querie for max-width: 992px */
+
+@media (max-width: 992px) {
+    .card-body {
+        height: 20rem;
+        overflow: auto;
+    }
+
+    .card-one {
+        overflow: hidden;
     }
 }
