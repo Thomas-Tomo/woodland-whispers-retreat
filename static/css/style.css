@@ -57,6 +57,31 @@ body {
     width: 80%;
 }
 
+/* About section */
+
+.section-title {
+    color: #FFFFFF;
+}
+
+.about-section p,
+.lake-tale-section p {
+    color: #27211b;
+    text-align: center;
+}
+
+.about-row {
+    border: 1px solid #c59d74;
+    border-radius: 5px;
+    margin-bottom: 2rem;
+    background-color: #c59d74;
+}
+
+hr {
+    height: 4px;
+    background-color: #502038;
+}
+
+
 /* Footer */
 
 footer {
@@ -72,6 +97,16 @@ footer {
     .custom-heading {
         font-size: 1.5rem;
     }
+
+    .about-row {
+        margin-right: 0.5rem;
+        margin-left: 0.5rem;
+    }
+
+    .section-title {
+        text-align: center;
+    }
+
 }
 
 /* Media Querie for max-width: 992px */
