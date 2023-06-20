@@ -7,6 +7,11 @@ body {
     font-family: 'Lora', 'Domine', serif;
 }
 
+h1,
+h2 {
+    margin-bottom: 2rem;
+}
+
 /* Navigation bar */
 
 .navbar {
@@ -37,10 +42,14 @@ body {
     background-color: #c59d74;
 }
 
+/* Main heading */
+
 .custom-heading {
     color: #ffffff;
     margin-top: 1rem;
 }
+
+/* Intro cards */
 
 .card {
     background-color: #c59d74;
@@ -52,6 +61,8 @@ body {
     flex-direction: column;
     justify-content: space-between;
 }
+
+/* Carousel */
 
 #cabin-carousel {
     width: 80%;
@@ -105,19 +116,5 @@ footer {
 
     .section-title {
         text-align: center;
-    }
-
-}
-
-/* Media Querie for max-width: 992px */
-
-@media (max-width: 992px) {
-    .card-body {
-        height: 20rem;
-        overflow: auto;
-    }
-
-    .card-one {
-        overflow: hidden;
     }
 }

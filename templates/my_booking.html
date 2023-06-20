@@ -10,24 +10,35 @@ Cabin Booking
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="card">
+                <img src="{{ cabin.image.url }}" class="card-img-top" alt="{{ cabin.name }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ cabin.name }}</h5>
                     <p class="card-text">{{ cabin.description }}</p>
                     <form method="POST" action="{% url 'my_booking' cabin.id %}">
                         {% csrf_token %}
-                        <div class="form-group">
-                            <label for="check-in">Check-in Date</label>
-                            <input type="date" class="form-control" id="check-in" name="check_in_date" required>
+                        <div class="form-group row">
+                            <label for="check-in" class="col-sm-4 col-form-label">Check-in Date</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="check-in" name="check_in_date" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="check-out">Check-out Date</label>
-                            <input type="date" class="form-control" id="check-out" name="check_out_date" required>
+                        <div class="form-group row">
+                            <label for="check-out" class="col-sm-4 col-form-label">Check-out Date</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="check-out" name="check_out_date" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="guests">Number of Guests</label>
-                            <input type="number" class="form-control" id="guests" name="num_guests" required>
+                        <div class="form-group row">
+                            <label for="guests" class="col-sm-4 col-form-label">Number of Guests</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="guests" name="num_guests" required>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Book Now</button>
+                        <div class="form-group row">
+                            <div class="col-sm-8 offset-sm-4">
+                                <button type="submit" class="btn btn-primary">Book Now</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
