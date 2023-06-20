@@ -15,7 +15,7 @@ Cabin Booking
                 <div class="card-body">
                     <h5 class="card-title">{{ cabin.name }}</h5>
                     <p class="card-text">{{ cabin.description }}</p>
-                    <a href="#" class="btn btn-primary">Book Now</a>
+                    <a href="{% url 'booking' cabin.id %}" class="btn btn-primary">Book Now</a>
                 </div>
             </div>
         </div>

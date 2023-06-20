@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.core.paginator import Paginator
 from django.views import generic, View
+from .forms import BookingForm
 from .models import Cabin
 
 
@@ -23,3 +24,21 @@ def cabin_booking(request):
     cabins = paginator.get_page(page_number)
 
     return render(request, 'cabin_booking.html', {'cabins': cabins})
+
+
+def booking_create(request, cabin_id):
+    cabin = Cabin.objects.get(id=cabin_id)
+
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.cabin = cabin
+            booking.user = request.user
+            booking.save()
+            return redirect('booking_success')
+    else:
+        form = BookingForm()
+
+    context = {'cabin': cabin, 'form': form}
+    return render(request, 'booking.html', context)
