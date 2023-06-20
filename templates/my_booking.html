@@ -13,7 +13,7 @@ Cabin Booking
                 <div class="card-body">
                     <h5 class="card-title">{{ cabin.name }}</h5>
                     <p class="card-text">{{ cabin.description }}</p>
-                    <form method="POST" action="{% url 'booking_create' cabin.id %}">
+                    <form method="POST" action="{% url 'my_booking' cabin.id %}">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="check-in">Check-in Date</label>

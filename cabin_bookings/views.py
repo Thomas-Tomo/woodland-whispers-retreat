@@ -41,4 +41,4 @@ def booking_create(request, cabin_id):
         form = BookingForm()
 
     context = {'cabin': cabin, 'form': form}
-    return render(request, 'booking.html', context)
+    return render(request, 'my_booking.html', context)
