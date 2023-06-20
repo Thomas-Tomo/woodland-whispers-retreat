@@ -5,6 +5,13 @@
 body {
     background-color: #4D8A6B;
     font-family: 'Lora', 'Domine', serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1 0 auto;
 }
 
 h1,
@@ -120,6 +127,18 @@ hr {
 
 footer {
     background-color: #502038;
+    text-align: center;
+    padding-top: 0.5rem;
+}
+
+footer i {
+    color: #c59d74;
+    font-size: 2rem;
+    transition: opacity 0.3s ease;
+}
+
+footer i:hover {
+    opacity: 0.5;
 }
 
 /* Media Queries */
