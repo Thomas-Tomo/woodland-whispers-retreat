@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Cabin Booking
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center custom-heading">Available Cabins</h2>
+    <div class="row">
+        {% for cabin in cabins %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ cabin.image.url }}" class="card-img-top" alt="{{ cabin.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ cabin.name }}</h5>
+                    <p class="card-text">{{ cabin.description }}</p>
+                    <a href="#" class="btn btn-primary">Book Now</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
