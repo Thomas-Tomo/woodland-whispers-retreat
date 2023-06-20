@@ -13,3 +13,14 @@ class Cabin(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Booking(models.Model):
+    cabin = models.ForeignKey(Cabin, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    check_in_date = models.DateField()
+    check_out_date = models.DateField()
+    num_guests = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"Booking {self.id} - Cabin: {self.cabin.name}, User: {self.user.username}"  # noqa
