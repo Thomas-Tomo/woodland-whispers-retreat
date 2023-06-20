@@ -64,8 +64,31 @@ h2 {
 
 /* Carousel */
 
+.carousel-container {
+    padding: 2rem 0;
+}
+
+.carousel-container img {
+    border: 3px solid #c59d74;
+    border-radius: 15px;
+}
+
 #cabin-carousel {
     width: 80%;
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    border: 3px solid #c59d74;
+    border-top: none;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 /* About section */
@@ -116,5 +139,15 @@ footer {
 
     .section-title {
         text-align: center;
+    }
+}
+
+
+/* Media Queries for max-width: 767px (medium screens) */
+
+@media (max-width:767px) {
+
+    #cabin-carousel {
+        width: 100%;
     }
 }
