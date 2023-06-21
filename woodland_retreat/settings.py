@@ -27,8 +27,11 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
+
+development = os.environ.get('DEVELOPMENT')
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = development
 
 ALLOWED_HOSTS = ['woodland-whispers-retreat.herokuapp.com', '8000-thomastomo-woodlandwhis-e3wnovowvr4.ws-eu100.gitpod.io', 'localhost']
 
