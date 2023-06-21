@@ -6,32 +6,31 @@ Booking Overview
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center custom-heading">Booking Overview</h2>
+    <h2 class="text-center custom-heading">My Bookings</h2>
     <div class="row">
-        <div class="col-md-12">
+        {% if bookings %}
+        {% for booking in bookings %}
+        <div class="col-md-4 mb-4">
             <div class="card">
+                <img src="{{ booking.cabin.image.url }}" class="card-img-top" alt="{{ booking.cabin.name }}">
                 <div class="card-body">
-                    <h5 class="card-title">My Bookings</h5>
-                    {% if bookings %}
-                        <ul class="booking-list">
-                            {% for booking in bookings %}
-                                <li>
-                                    <h6>Booking ID: {{ booking.id }}</h6>
-                                    <p>Cabin: {{ booking.cabin.name }}</p>
-                                    <p>Check In Date: {{ booking.check_in_date }}</p>
-                                    <p>Check Out Date: {{ booking.check_out_date }}</p>
-                                    <p>Guests: {{ booking.num_guests }}</p>
-                                </li>
-                            {% empty %}
-                                <li>No bookings found.</li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p>No bookings found.</p>
-                    {% endif %}
+                    <h5 class="card-title">{{ booking.cabin.name }}</h5>
+                    <p class="card-text">{{ booking.cabin.description }}</p>
+                    <p class="card-text">Booking ID: {{ booking.id }}</p>
+                    <p class="card-text">Check In Date: {{ booking.check_in_date }}</p>
+                    <p class="card-text">Check Out Date: {{ booking.check_out_date }}</p>
+                    <p class="card-text">Guests: {{ booking.num_guests }}</p>
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
                 </div>
             </div>
         </div>
+        {% endfor %}
+        {% else %}
+        <p>No bookings found.</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
