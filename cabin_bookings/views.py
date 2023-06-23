@@ -76,3 +76,14 @@ def edit_booking(request, booking_id):
         context = {'form': form, 'booking': booking}
 
     return render(request, 'edit_booking.html', context)
+
+
+@login_required
+def delete_booking(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+
+    if request.method == 'POST':
+        booking.delete()
+        return redirect('booking_overview')
+
+    return redirect('booking_overview')
