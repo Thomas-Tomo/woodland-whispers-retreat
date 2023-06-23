@@ -58,3 +58,7 @@ def booking_success(request, cabin_id, booking_id):
 def booking_overview(request):
     bookings = Booking.objects.filter(user=request.user)
     return render(request, 'booking_overview.html', {'bookings': bookings})
+
+
+def edit_booking(request, booking_id):
+    
