@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.views import generic, View
 from .forms import BookingForm
@@ -60,6 +61,7 @@ def booking_overview(request):
     return render(request, 'booking_overview.html', {'bookings': bookings})
 
 
+@login_required
 def edit_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id, user=request.user)
 
@@ -70,6 +72,6 @@ def edit_booking(request, booking_id):
             return redirect('booking_overview')
     else:
         form = BookingForm(instance=booking)
+        context = {'form': form, 'booking': booking}
 
-    context = {'form': form}
     return render(request, 'edit_booking.html', context)

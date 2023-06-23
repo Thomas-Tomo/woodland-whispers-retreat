@@ -28,13 +28,13 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # Use this one for Heroku deployment
-# development = os.environ.get('DEVELOPMENT')
+development = os.environ.get('DEVELOPMENT')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
 # Use this one for Heroku deployment
-# DEBUG = development
-DEBUG = True
+DEBUG = development
+# DEBUG = True
 
 ALLOWED_HOSTS = ['woodland-whispers-retreat.herokuapp.com', '8000-thomastomo-woodlandwhis-e3wnovowvr4.ws-eu100.gitpod.io', 'localhost']  # noqa
 
