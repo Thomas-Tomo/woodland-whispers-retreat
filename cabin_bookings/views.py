@@ -56,6 +56,7 @@ def booking_success(request, cabin_id, booking_id):
     return render(request, 'booking_success.html', context)
 
 
+@login_required
 def booking_overview(request):
     bookings = Booking.objects.filter(user=request.user)
     return render(request, 'booking_overview.html', {'bookings': bookings})
