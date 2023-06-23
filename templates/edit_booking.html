@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Edit Booking
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center custom-heading">Edit Booking</h2>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ booking.cabin.image.url }}" class="card-img-top" alt="{{ booking.cabin.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ booking.cabin.name }}</h5>
+                    <p class="card-text">{{ booking.cabin.description }}</p>
+                    <p class="card-text">Booking ID: {{ booking.id }}</p>
+                    <p class="card-text">Check In Date: {{ booking.check_in_date }}</p>
+                    <p class="card-text">Check Out Date: {{ booking.check_out_date }}</p>
+                    <p class="card-text">Guests: {{ booking.num_guests }}</p>
+                    <form method="post" action="{% url 'edit_booking' booking.id %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
