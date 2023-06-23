@@ -9,4 +9,5 @@ urlpatterns = [
     path('booking/success/<int:cabin_id>/<int:booking_id>/', views.booking_success, name='booking_success'),  # noqa
     path('booking-overview/', views.booking_overview, name='booking_overview'),
     path('booking/edit/<int:booking_id>/', views.edit_booking, name='edit_booking'),  # noqa
+    path('booking/<int:booking_id>/delete/', views.delete_booking, name='delete_booking'),  # noqa
 ]
