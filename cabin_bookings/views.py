@@ -61,4 +61,15 @@ def booking_overview(request):
 
 
 def edit_booking(request, booking_id):
-    
+    booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+
+    if request.method == 'POST':
+        form = BookingForm(request.POST, instance=booking)
+        if form.is_valid():
+            form.save()
+            return redirect('booking_overview')
+    else:
+        form = BookingForm(instance=booking)
+
+    context = {'form': form}
+    return render(request, 'edit_booking.html', context)
