@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.views import generic, View
@@ -44,6 +45,7 @@ def booking_create(request, cabin_id):
                 return render(request, 'my_booking.html', context)
 
             booking.save()
+            messages.success(request, "New Booking created successfully")
             return redirect('booking_success', cabin_id=cabin.id, booking_id=booking.id)  # noqa
     else:
         form = BookingForm()
@@ -84,6 +86,7 @@ def edit_booking(request, booking_id):
                 return render(request, 'edit_booking.html', context)
 
             form.save()
+            messages.success(request, "Booking updated successfully")
             return redirect('booking_overview')
     else:
         form = BookingForm(instance=booking)
