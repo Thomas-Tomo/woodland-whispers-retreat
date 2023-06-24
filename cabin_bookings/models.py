@@ -10,7 +10,7 @@ class Cabin(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
     image = CloudinaryField('log_cabin_images')
-    num_guests = models.PositiveIntegerField(default=1)
+    max_guests = models.PositiveIntegerField(default=1)
     bedrooms = models.PositiveIntegerField(default=1)
 
     def __str__(self):
