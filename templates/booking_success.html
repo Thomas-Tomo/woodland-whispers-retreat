@@ -5,21 +5,21 @@ Booking Successful
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container mb-4">
     <h2 class="text-center custom-heading">Booking Successful!</h2>
-    <div class="row">
-        <div class="col-md-12">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
             <div class="card">
+                <img src="{{ booking.cabin.image.url }}" class="card-img-top" alt="{{ booking.cabin.name }}">
                 <div class="card-body">
-                    <h5 class="card-title">Thank you for your booking</h5>
-                    <p class="card-text">Your booking has been confirmed.</p>
-                    <p class="card-text">Booking details:</p>
-                    <ul>
-                        <li>Cabin: {{ cabin.name }}</li>
-                        <li>Check In Date: {{ check_in_date }}</li>
-                        <li>Check Out Date: {{ check_out_date }}</li>
-                        <li>Guests: {{ num_guests }}</li>
-                    </ul>
+                    <h5 class="card-title">{{ booking.cabin.name }}</h5>
+                    <p class="card-text">{{ booking.cabin.description }}</p>
+                    <p class="card-text">Booking ID: {{ booking.id }}</p>
+                    <p class="card-text">Check In Date: {{ booking.check_in_date }}</p>
+                    <p class="card-text">Check Out Date: {{ booking.check_out_date }}</p>
+                    <p class="card-text">Guests: {{ booking.num_guests }}</p>
+                    <p class="card-text">Bedrooms: {{ booking.cabin.bedrooms }}</p>
+                    <p class="card-text">Price: {{ booking.cabin.price }}€</p>
                     <p class="card-text">If you have any questions or need further assistance, please contact us</p>
                 </div>
             </div>
