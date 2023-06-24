@@ -20,6 +20,8 @@ Booking Overview
                     <p class="card-text">Check In Date: {{ booking.check_in_date }}</p>
                     <p class="card-text">Check Out Date: {{ booking.check_out_date }}</p>
                     <p class="card-text">Guests: {{ booking.num_guests }}</p>
+                    <p class="card-text">Bedrooms: {{ booking.cabin.bedrooms }}</p>
+                    <p class="card-text">Price: {{ booking.cabin.price }}€</p>
                     <div class="btn-group">
                         <a href="{% url 'edit_booking' booking.id %}" class="btn btn-primary btn-sm">Edit</a>
                         <form method="post" action="{% url 'delete_booking' booking_id=booking.id %}">

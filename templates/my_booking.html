@@ -14,6 +14,8 @@ Cabin Booking
                 <div class="card-body">
                     <h5 class="card-title">{{ cabin.name }}</h5>
                     <p class="card-text">{{ cabin.description }}</p>
+                    <p class="card-text">Number of bedrooms: {{cabin.bedrooms}} </p>
+                    <p class="card-text">Price: {{cabin.price}}€ </p>
                     <form method="POST" action="{% url 'my_booking' cabin.id %}">
                         {% csrf_token %}
                         <div class="form-group row">
