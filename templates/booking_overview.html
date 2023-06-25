@@ -24,10 +24,7 @@ Booking Overview
                     <p class="card-text">Price: {{ booking.cabin.price }}€</p>
                     <div class="btn-group">
                         <a href="{% url 'edit_booking' booking.id %}" class="btn btn-primary btn-sm">Edit</a>
-                        <form method="post" action="{% url 'delete_booking' booking_id=booking.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
+                        <a href="{% url 'delete_booking' booking.id %}" class="btn btn-danger btn-sm">Delete</a>
                     </div>
                 </div>
             </div>

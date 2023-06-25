@@ -28,6 +28,7 @@ def cabin_booking(request):
     return render(request, 'cabin_booking.html', {'cabins': cabins})
 
 
+@login_required
 def booking_create(request, cabin_id):
     cabin = Cabin.objects.get(id=cabin_id)
 
@@ -57,6 +58,7 @@ def booking_create(request, cabin_id):
     return render(request, 'my_booking.html', context)
 
 
+@login_required
 def booking_success(request, cabin_id, booking_id):
     cabin = get_object_or_404(Cabin, id=cabin_id)
     booking = get_object_or_404(Booking, id=booking_id)
@@ -108,4 +110,4 @@ def delete_booking(request, booking_id):
         messages.success(request, "Booking deleted successfully.")
         return redirect('booking_overview')
 
-    return redirect('booking_overview')
+    return render(request, 'delete_booking.html', {'booking': booking})
