@@ -34,7 +34,13 @@ Booking Overview
         </div>
         {% endfor %}
         {% else %}
-        <p>No bookings found.</p>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text">No bookings found.</p>
+                </div>
+            </div>
+        </div>
         {% endif %}
     </div>
 </div>
