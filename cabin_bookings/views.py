@@ -41,11 +41,12 @@ def booking_create(request, cabin_id):
             num_guests = form.cleaned_data['num_guests']
             if num_guests > cabin.max_guests:
                 form.add_error('num_guests', "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
+                messages.warning(request, "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
                 context = {'cabin': cabin, 'form': form}
                 return render(request, 'my_booking.html', context)
 
             booking.save()
-            messages.success(request, "New Booking created successfully")
+            messages.success(request, "New booking created successfully.")
             return redirect('booking_success', cabin_id=cabin.id, booking_id=booking.id)  # noqa
     else:
         form = BookingForm()
@@ -82,11 +83,12 @@ def edit_booking(request, booking_id):
             num_guests = form.cleaned_data['num_guests']
             if num_guests > booking.cabin.max_guests:
                 form.add_error('num_guests', "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
+                messages.warning(request, "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
                 context = {'form': form, 'booking': booking}
                 return render(request, 'edit_booking.html', context)
 
             form.save()
-            messages.success(request, "Booking updated successfully")
+            messages.success(request, "Booking updated successfully.")
             return redirect('booking_overview')
     else:
         form = BookingForm(instance=booking)
@@ -101,6 +103,7 @@ def delete_booking(request, booking_id):
 
     if request.method == 'POST':
         booking.delete()
+        messages.success(request, "Booking deleted successfully.")
         return redirect('booking_overview')
 
     return redirect('booking_overview')
