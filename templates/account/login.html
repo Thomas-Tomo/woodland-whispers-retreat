@@ -10,7 +10,7 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <h1 class="text-center">User Account Login</h1>
+      <h1 class="text-center custom-heading">User Account Login</h1>
 
       {% get_providers as socialaccount_providers %}
 
@@ -30,25 +30,27 @@
       {% include "socialaccount/snippets/login_extra.html" %}
 
       {% else %}
-      <p class="text-center">{% blocktrans %}If you have not created an account yet, then please
-        <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-      {% endif %}
+      <div class="card">
+        <div class="card-body text-center">
+          <p class="text-center">{% blocktrans %} Don't have an account yet?
+            <a href="{{ signup_url }}" class="text-white text-capitalize">sign up</a>
+            first.{% endblocktrans %}</p>
 
-      <form class="login" method="POST" action="{% url 'account_login' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-        {% endif %}
-        <div class="form-group text-center">
-          <a class="btn btn-link" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-          <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
+          <form class="login" method="POST" action="{% url 'account_login' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <div class="form-group text-center">
+              <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
+      {% endif %}
     </div>
   </div>
 </div>
-
-
 
 {% endblock %}
