@@ -32,3 +32,5 @@ class Booking(models.Model):
     def clean(self):
         if self.check_in_date < timezone.now().date():
             raise ValidationError('Please select a future check-in date.')
+        if self.check_out_date < self.check_in_date:
+            raise ValidationError('Check-out date cannot be earlier than the check-in date.')  # noqa

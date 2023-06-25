@@ -77,25 +77,25 @@ def booking_overview(request):
 @login_required
 def edit_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+    context = {'form': None, 'booking': booking}
 
     if request.method == 'POST':
         form = BookingForm(request.POST, instance=booking)
         if form.is_valid():
-
             num_guests = form.cleaned_data['num_guests']
             if num_guests > booking.cabin.max_guests:
                 form.add_error('num_guests', "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
                 messages.warning(request, "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
-                context = {'form': form, 'booking': booking}
-                return render(request, 'edit_booking.html', context)
-
-            form.save()
-            messages.success(request, "Booking updated successfully.")
-            return redirect('booking_overview')
+            else:
+                form.save()
+                messages.success(request, "Booking updated successfully.")
+                return redirect('booking_overview')
+        else:
+            messages.warning(request, "Please select a future check-in and check-out date.")  # noqa
     else:
         form = BookingForm(instance=booking)
-        context = {'form': form, 'booking': booking}
 
+    context['form'] = form
     return render(request, 'edit_booking.html', context)
 
 
