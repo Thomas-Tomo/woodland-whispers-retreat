@@ -48,6 +48,8 @@ def booking_create(request, cabin_id):
             booking.save()
             messages.success(request, "New booking created successfully.")
             return redirect('booking_success', cabin_id=cabin.id, booking_id=booking.id)  # noqa
+        else:
+            messages.warning(request, "Please select a future check-in and check-out date.")  # noqa
     else:
         form = BookingForm()
 
