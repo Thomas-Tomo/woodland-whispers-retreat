@@ -21,5 +21,17 @@ Cabin Booking
         </div>
         {% endfor %}
     </div>
+    <!-- Pagination controls -->
+    <div class="pagination justify-content-center mb-2">
+        <div class="mr-5">
+            <span class="current-page text-white">Page: {{ cabins.number }}</span>
+        </div>
+        {% if cabins.has_previous %}
+        <a href="?page={{ cabins.previous_page_number }}" class="btn btn-dark">Previous</a>
+        {% endif %}
+        {% if cabins.has_next %}
+        <a href="?page={{ cabins.next_page_number }}" class="btn btn-dark">Next</a>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
