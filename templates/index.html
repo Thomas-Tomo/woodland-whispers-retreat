@@ -63,7 +63,10 @@
                 <div class="carousel-inner">
                     {% for cabin in cabins %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <img src="{{ cabin.image.url }}" class="d-block w-100" alt="{{ cabin.name }}">
+                        <a {% if user.is_authenticated %}href="{% url 'cabin_booking' %}"
+                            {% else %}href="{% url 'account_signup' %}" {% endif %}>
+                            <img src="{{ cabin.image.url }}" class="d-block w-100" alt="{{ cabin.name }}">
+                        </a>
                         <div class="carousel-caption">
                             <h3>{{ cabin.name }}</h3>
                             <p>{{ cabin.description }}</p>
