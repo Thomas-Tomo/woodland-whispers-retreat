@@ -94,7 +94,7 @@ def booking_overview(request):
 @login_required
 def edit_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id, user=request.user)
-    context = {'form': None, 'booking': booking}
+    booked_dates = Booking.objects.filter(cabin=booking.cabin).exclude(id=booking_id)  # noqa
 
     if request.method == 'POST':
         form = BookingForm(request.POST, instance=booking)
@@ -108,11 +108,10 @@ def edit_booking(request, booking_id):
                 check_out_date = form.cleaned_data['check_out_date']
 
                 # Check for overlapping bookings for the same cabin
-                overlapping_bookings = Booking.objects.filter(
-                    cabin=booking.cabin,
+                overlapping_bookings = booked_dates.filter(
                     check_in_date__lte=check_out_date,
                     check_out_date__gte=check_in_date
-                ).exclude(id=booking_id)
+                )
 
                 if overlapping_bookings.exists():
                     form.add_error(None, "The cabin is already booked for the selected dates.")  # noqa
@@ -126,7 +125,7 @@ def edit_booking(request, booking_id):
     else:
         form = BookingForm(instance=booking)
 
-    context['form'] = form
+    context = {'form': form, 'booking': booking, 'booked_dates': booked_dates}
     return render(request, 'edit_booking.html', context)
 
 

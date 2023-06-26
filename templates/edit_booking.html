@@ -35,6 +35,27 @@ Edit Booking
                             <input type="number" class="form-control" id="guests" name="num_guests"
                                 value="{{ booking.num_guests }}" required>
                         </div>
+                        <div class="container mb-4">
+                            {% if booked_dates %}
+                            <h4>Already Booked Dates:</h4>
+                            <table class="table" id="booked-dates-table">
+                                <thead>
+                                    <tr>
+                                        <th>Check-in Date</th>
+                                        <th>Check-out Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for booked_date in booked_dates %}
+                                    <tr>
+                                        <td>{{ booked_date.check_in_date }}</td>
+                                        <td>{{ booked_date.check_out_date }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% endif %}
+                        </div>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </form>
                 </div>
