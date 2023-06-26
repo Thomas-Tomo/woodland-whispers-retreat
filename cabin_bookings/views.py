@@ -67,7 +67,9 @@ def booking_create(request, cabin_id):
     else:
         form = BookingForm()
 
-    context = {'cabin': cabin, 'form': form}
+    booked_dates = Booking.objects.filter(cabin=cabin)
+
+    context = {'cabin': cabin, 'form': form, 'booked_dates': booked_dates}
     return render(request, 'my_booking.html', context)
 
 

@@ -26,3 +26,24 @@ $(document).ready(function() {
     }
   });
 });
+
+// Delete past booking dates
+$(document).ready(function() {
+  // Get the current date
+  var currentDate = new Date();
+
+  // Iterate over each table row
+  $('#booked-dates-table tbody tr').each(function() {
+    // Get the date value from the row
+    var dateStr = $(this).find('.date').text();
+    
+    // Convert the date string to a Date object
+    var date = new Date(dateStr);
+
+    // Compare the date with the current date
+    if (date < currentDate) {
+      // Remove the row if the date is in the past
+      $(this).remove();
+    }
+  });
+});

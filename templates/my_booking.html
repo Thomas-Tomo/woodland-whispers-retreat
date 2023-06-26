@@ -12,7 +12,7 @@ Cabin Booking
             <div class="card">
                 <img src="{{ cabin.image.url }}" class="card-img-top" alt="{{ cabin.name }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ cabin.name }}</h5>
+                    <h3 class="card-title">{{ cabin.name }}</h3>
                     <p class="card-text">{{ cabin.description }}</p>
                     <p class="card-text">Number of Bedrooms: {{cabin.bedrooms}} </p>
                     <p class="card-text">Maximum Guests: {{cabin.max_guests}} </p>
@@ -43,6 +43,27 @@ Cabin Booking
                             </div>
                         </div>
                     </form>
+                    <div class="container mb-4">
+                        {% if booked_dates %}
+                        <h4>Already Booked Dates:</h4>
+                        <table class="table" id="booked-dates-table">
+                            <thead>
+                                <tr>
+                                    <th>Check-in Date</th>
+                                    <th>Check-out Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booked_date in booked_dates %}
+                                <tr>
+                                    <td>{{ booked_date.check_in_date }}</td>
+                                    <td>{{ booked_date.check_out_date }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
