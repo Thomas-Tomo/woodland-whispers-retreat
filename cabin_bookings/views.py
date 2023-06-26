@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.views import generic, View
 from .forms import BookingForm
+from django.db.models import Q
 from .models import Cabin, Booking
 
 
@@ -43,6 +44,18 @@ def booking_create(request, cabin_id):
             if num_guests > cabin.max_guests:
                 form.add_error('num_guests', "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
                 messages.warning(request, "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
+                context = {'cabin': cabin, 'form': form}
+                return render(request, 'my_booking.html', context)
+
+            # Check if the cabin is already booked for the selected dates
+            existing_bookings = Booking.objects.filter(
+                cabin=cabin,
+                check_in_date__lte=booking.check_out_date,
+                check_out_date__gte=booking.check_in_date,
+            )
+            if existing_bookings.exists():
+                form.add_error(None, "The cabin is already booked for the selected dates.")  # noqa
+                messages.warning(request, "The cabin is already booked for the selected dates.")  # noqa
                 context = {'cabin': cabin, 'form': form}
                 return render(request, 'my_booking.html', context)
 
@@ -89,9 +102,23 @@ def edit_booking(request, booking_id):
                 form.add_error('num_guests', "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
                 messages.warning(request, "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
             else:
-                form.save()
-                messages.success(request, "Booking updated successfully.")
-                return redirect('booking_overview')
+                check_in_date = form.cleaned_data['check_in_date']
+                check_out_date = form.cleaned_data['check_out_date']
+
+                # Check for overlapping bookings for the same cabin
+                overlapping_bookings = Booking.objects.filter(
+                    cabin=booking.cabin,
+                    check_in_date__lte=check_out_date,
+                    check_out_date__gte=check_in_date
+                ).exclude(id=booking_id)
+
+                if overlapping_bookings.exists():
+                    form.add_error(None, "The cabin is already booked for the selected dates.")  # noqa
+                    messages.warning(request, "The cabin is already booked for the selected dates.")  # noqa
+                else:
+                    form.save()
+                    messages.success(request, "Booking updated successfully.")
+                    return redirect('booking_overview')
         else:
             messages.warning(request, "Please select a future check-in and check-out date.")  # noqa
     else:
