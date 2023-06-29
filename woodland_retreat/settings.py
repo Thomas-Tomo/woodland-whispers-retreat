@@ -36,7 +36,7 @@ development = os.environ.get('DEVELOPMENT')
 DEBUG = development
 # DEBUG = True
 
-ALLOWED_HOSTS = ['woodland-whispers-retreat.herokuapp.com', '8000-thomastomo-woodlandwhis-e3wnovowvr4.ws-eu100.gitpod.io', 'localhost']  # noqa
+ALLOWED_HOSTS = ['woodland-whispers-retreat.herokuapp.com', '8000-thomastomo-woodlandwhis-e3wnovowvr4.ws-eu101.gitpod.io', 'localhost']  # noqa
 
 
 # Application definition
