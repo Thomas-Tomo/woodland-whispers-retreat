@@ -26,3 +26,13 @@ $(document).ready(function() {
     }
   });
 });
+
+
+$(document).ready(function () {
+  flatpickr('.flatpickr', {
+      dateFormat: 'Y-m-d',
+      minDate: 'today',
+      static: true, // Prevents the calendar from closing when selecting a date
+      appendTo: document.querySelector('.input-group'), // Appends the calendar to the input group
+  });
+});
