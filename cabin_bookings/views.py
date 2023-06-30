@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+import json
 from django.views import generic, View
 from .forms import BookingForm
 from django.db.models import Q
@@ -67,9 +68,15 @@ def booking_create(request, cabin_id):
     else:
         form = BookingForm()
 
-    booked_dates = Booking.objects.filter(cabin=cabin)
+    booked_dates = Booking.objects.filter(cabin=cabin).values_list('check_in_date', 'check_out_date')  # noqa
 
-    context = {'cabin': cabin, 'form': form, 'booked_dates': booked_dates}
+    booked_dates_str = [[str(check_in_date), str(check_out_date)] for check_in_date, check_out_date in booked_dates]  # noqa
+
+    context = {
+        'cabin': cabin,
+        'form': form,
+        'booked_dates_json': json.dumps(booked_dates_str),
+    }
     return render(request, 'my_booking.html', context)
 
 

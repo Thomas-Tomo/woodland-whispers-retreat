@@ -62,4 +62,21 @@ Cabin Booking
         </div>
     </div>
 </div>
+<script>
+    var bookedDates = JSON.parse('{{ booked_dates_json|safe }}');
+  
+    document.addEventListener('DOMContentLoaded', function() {
+      flatpickr('.flatpickr', {
+        dateFormat: 'Y-m-d',
+        minDate: 'today',
+        disable: bookedDates.map(function(dates) {
+          return {
+            from: dates[0],
+            to: dates[1]
+          };
+        }),
+        static: true
+      });
+    });
+  </script>
 {% endblock %}
