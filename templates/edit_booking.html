@@ -66,4 +66,23 @@ Edit Booking
         </div>
     </div>
 </div>
+<script>
+    var bookedDatesJson = '{{ booked_dates_json|safe }}';
+    if (bookedDatesJson) {
+        var bookedDates = JSON.parse(bookedDatesJson);
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr('.flatpickr', {
+                dateFormat: 'Y-m-d',
+                minDate: 'today',
+                disable: bookedDates.map(function (dates) {
+                    return {
+                        from: dates[0],
+                        to: dates[1]
+                    };
+                }),
+                static: true
+            });
+        });
+    }
+</script>
 {% endblock %}
