@@ -28,14 +28,3 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking {self.id} - Cabin: {self.cabin.name}, User: {self.user.username}"  # noqa
-
-    def clean(self):
-        if self.check_in_date < timezone.now().date():
-            raise ValidationError('Please select a future check-in date.')
-        if self.check_out_date < self.check_in_date:
-            raise ValidationError('Check-out date cannot be earlier than the check-in date.')  # noqa
-        if self.check_in_date and self.check_out_date:
-            if self.check_in_date >= self.check_out_date:
-                raise ValidationError("Check-in date must be before check-out date.")  # noqa
-        else:
-            raise ValidationError("Both check-in and check-out dates are required.")  # noqa

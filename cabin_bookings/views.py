@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from datetime import date
+from django.utils import timezone
 import json
 from django.views import generic, View
 from .forms import BookingForm
@@ -46,21 +48,38 @@ def booking_create(request, cabin_id):
                 form.add_error('num_guests', "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
                 messages.warning(request, "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
             else:
-                # Check if the cabin is already booked for the selected dates
-                existing_bookings = Booking.objects.filter(
-                    cabin=cabin,
-                    check_in_date__lte=booking.check_out_date,
-                    check_out_date__gte=booking.check_in_date,
-                )
-                if existing_bookings.exists():
-                    form.add_error(None, "The cabin is already booked for the selected dates.")  # noqa
-                    messages.warning(request, "The cabin is already booked for the selected dates.")  # noqa
+                check_in_date = form.cleaned_data['check_in_date']
+                check_out_date = form.cleaned_data['check_out_date']
+                today = timezone.now().date()
+
+                if check_in_date < today:
+                    form.add_error('check_in_date', "Please select a future check-in date.")  # noqa
+                    messages.warning(request, "Please select a future check-in date.")  # noqa
+                elif check_out_date < check_in_date:
+                    form.add_error('check_out_date', "Check-out date cannot be earlier than the check-in date.")  # noqa
+                    messages.warning(request, "Check-out date cannot be earlier than the check-in date.")  # noqa
+                elif check_in_date == check_out_date:
+                    form.add_error('check_out_date', "Check-out date cannot be the same as the check-in date.")  # noqa
+                    messages.warning(request, "Check-out date cannot be the same as the check-in date.")  # noqa
                 else:
-                    booking.save()
-                    messages.success(request, "New booking created successfully.")  # noqa
-                    return redirect('booking_success', cabin_id=cabin.id, booking_id=booking.id)  # noqa
+                    # Check if the cabin is already booked for the selected dates  # noqa
+                    existing_bookings = Booking.objects.filter(
+                        cabin=cabin,
+                        check_in_date__lte=check_out_date,
+                        check_out_date__gte=check_in_date,
+                    )
+                    if existing_bookings.exists():
+                        form.add_error(None, "The cabin is already booked for the selected dates.")  # noqa
+                        messages.warning(request, "The cabin is already booked for the selected dates.")  # noqa
+                    else:
+                        booking.save()
+                        messages.success(request, "New booking created successfully.")  # noqa
+                        return redirect('booking_success', cabin_id=cabin.id, booking_id=booking.id)  # noqa
         else:
-            messages.warning(request, "Please select a future check-in and check-out date.")  # noqa
+            for field, errors in form.errors.items():
+                for error in errors:
+                    if field != '__all__':
+                        messages.warning(request, f"{form[field].label}: {error}")  # noqa
     else:
         form = BookingForm()
 
