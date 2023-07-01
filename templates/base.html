@@ -59,7 +59,9 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{% url 'booking_overview' %}">My Booking</a>
                                 <a class="dropdown-item" href="{% url 'cabin_booking' %}">Make a Booking</a>
-                                <a class="dropdown-item" href="#">Link 3</a>
+                                {% if user.is_superuser %}
+                                <a class="dropdown-item" href="/admin/">Admin Panel</a>
+                                {% endif %}
                             </div>
                         </li>
                         <li class="nav-item">
@@ -110,7 +112,8 @@
                 <div class="col-lg-4">
                     <ul class="list-inline social-media">
                         <li class="list-inline-item">
-                            <a href="https://github.com/Thomas-Tomo" target="_blank" rel="noopener noreferrer" aria-label="link to github account">
+                            <a href="https://github.com/Thomas-Tomo" target="_blank" rel="noopener noreferrer"
+                                aria-label="link to github account">
                                 <i class="fab fa-github"></i>
                             </a>
                         </li>
