@@ -45,24 +45,20 @@ def booking_create(request, cabin_id):
             if num_guests > cabin.max_guests:
                 form.add_error('num_guests', "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
                 messages.warning(request, "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
-                context = {'cabin': cabin, 'form': form}
-                return render(request, 'my_booking.html', context)
-
-            # Check if the cabin is already booked for the selected dates
-            existing_bookings = Booking.objects.filter(
-                cabin=cabin,
-                check_in_date__lte=booking.check_out_date,
-                check_out_date__gte=booking.check_in_date,
-            )
-            if existing_bookings.exists():
-                form.add_error(None, "The cabin is already booked for the selected dates.")  # noqa
-                messages.warning(request, "The cabin is already booked for the selected dates.")  # noqa
-                context = {'cabin': cabin, 'form': form}
-                return render(request, 'my_booking.html', context)
-
-            booking.save()
-            messages.success(request, "New booking created successfully.")
-            return redirect('booking_success', cabin_id=cabin.id, booking_id=booking.id)  # noqa
+            else:
+                # Check if the cabin is already booked for the selected dates
+                existing_bookings = Booking.objects.filter(
+                    cabin=cabin,
+                    check_in_date__lte=booking.check_out_date,
+                    check_out_date__gte=booking.check_in_date,
+                )
+                if existing_bookings.exists():
+                    form.add_error(None, "The cabin is already booked for the selected dates.")  # noqa
+                    messages.warning(request, "The cabin is already booked for the selected dates.")  # noqa
+                else:
+                    booking.save()
+                    messages.success(request, "New booking created successfully.")  # noqa
+                    return redirect('booking_success', cabin_id=cabin.id, booking_id=booking.id)  # noqa
         else:
             messages.warning(request, "Please select a future check-in and check-out date.")  # noqa
     else:

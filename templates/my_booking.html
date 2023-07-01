@@ -23,7 +23,8 @@ Cabin Booking
                             <label for="check-in" class="col-sm-4 col-form-label">Check-in Date</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" class="form-control flatpickr" id="check-in" name="check_in_date" required>
+                                    <input type="text" class="form-control flatpickr" id="check-in" name="check_in_date"
+                                        required>
                                     <div class="input-group-append">
                                         <span class="input-group-text">
                                             <i class="fa fa-calendar"></i>
@@ -36,7 +37,8 @@ Cabin Booking
                             <label for="check-out" class="col-sm-4 col-form-label">Check-out Date</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="text" class="form-control flatpickr" id="check-out" name="check_out_date" required>
+                                    <input type="text" class="form-control flatpickr" id="check-out"
+                                        name="check_out_date" required>
                                     <div class="input-group-append">
                                         <span class="input-group-text">
                                             <i class="fa fa-calendar"></i>
@@ -63,20 +65,22 @@ Cabin Booking
     </div>
 </div>
 <script>
-    var bookedDates = JSON.parse('{{ booked_dates_json|safe }}');
-  
-    document.addEventListener('DOMContentLoaded', function() {
-      flatpickr('.flatpickr', {
-        dateFormat: 'Y-m-d',
-        minDate: 'today',
-        disable: bookedDates.map(function(dates) {
-          return {
-            from: dates[0],
-            to: dates[1]
-          };
-        }),
-        static: true
-      });
-    });
-  </script>
+    var bookedDatesJson = '{{ booked_dates_json|safe }}';
+    if (bookedDatesJson) {
+        var bookedDates = JSON.parse(bookedDatesJson);
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr('.flatpickr', {
+                dateFormat: 'Y-m-d',
+                minDate: 'today',
+                disable: bookedDates.map(function (dates) {
+                    return {
+                        from: dates[0],
+                        to: dates[1]
+                    };
+                }),
+                static: true
+            });
+        });
+    }
+</script>
 {% endblock %}
