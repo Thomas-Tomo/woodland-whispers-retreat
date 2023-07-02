@@ -18,25 +18,13 @@ class Home(generic.TemplateView):
     template_name = 'index.html'
 
 
+def contact_view(request):
+    return render(request, 'contact.html')
+
+
 def cabin_list(request):
     cabins = Cabin.objects.all()
     return render(request, 'index.html', {'cabins': cabins})
-
-
-def contact(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
-
-        # Process the form data or send an email
-        # ...
-
-        # Display a success message
-        messages.success(request, "Thank you for contacting us. We will get back to you soon.")  # noqa
-        return redirect('contact')
-
-    return render(request, 'contact.html')
 
 
 def cabin_booking(request):

@@ -122,6 +122,18 @@ hr {
     background-color: #502038;
 }
 
+/* Contact */
+
+.social-links i {
+    color: #502038;
+    font-size: 2rem;
+    transition: opacity 0.3s ease;
+}
+
+.social-links i:hover {
+    opacity: 0.5;
+}
+
 /* Footer */
 
 footer {
