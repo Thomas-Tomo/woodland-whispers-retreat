@@ -54,13 +54,21 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span><i class="fa-solid fa-circle-user"></i> {{ user.username }}</span>
+                                <span>
+                                    {% if user.is_superuser %}
+                                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                                    {% else %}
+                                    <i class="fa-solid fa-circle-user"></i>
+                                    {% endif %}
+                                </span>
+                                {{ user.username }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{% url 'booking_overview' %}">My Booking</a>
                                 <a class="dropdown-item" href="{% url 'cabin_booking' %}">Make a Booking</a>
                                 {% if user.is_superuser %}
-                                <a class="dropdown-item" href="{% url 'admin:index' %}">Admin Panel <i class="fas fa-wrench"></i></a>
+                                <a class="dropdown-item" href="{% url 'admin:index' %}">Admin Panel <i
+                                        class="fas fa-wrench"></i></a>
                                 {% endif %}
                             </div>
                         </li>
