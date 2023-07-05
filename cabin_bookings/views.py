@@ -49,50 +49,101 @@ def booking_create(request, cabin_id):
 
             num_guests = form.cleaned_data['num_guests']
             if num_guests <= 0:
-                form.add_error('num_guests', "The number of guests must be greater than zero.")  # noqa
-                messages.warning(request, "The number of guests must be greater than zero.")  # noqa
+                form.add_error(
+                    'num_guests',
+                    "The number of guests must be greater than zero."
+                )
+                messages.warning(
+                    request,
+                    "The number of guests must be greater than zero."
+                )
             elif num_guests > booking.cabin.max_guests:
-                form.add_error('num_guests', "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
-                messages.warning(request, "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
+                form.add_error(
+                    'num_guests',
+                    "Exceeds maximum guests allowed."
+                )
+                messages.warning(
+                    request,
+                    "Exceeds maximum guests allowed."
+                )
             else:
                 check_in_date = form.cleaned_data['check_in_date']
                 check_out_date = form.cleaned_data['check_out_date']
                 today = timezone.now().date()
 
                 if check_in_date < today:
-                    form.add_error('check_in_date', "Please select a future check-in date.")  # noqa
-                    messages.warning(request, "Please select a future check-in date.")  # noqa
+                    form.add_error(
+                        'check_in_date',
+                        "Please select a future check-in date."
+                    )
+                    messages.warning(
+                        request,
+                        "Please select a future check-in date."
+                    )
                 elif check_out_date < check_in_date:
-                    form.add_error('check_out_date', "Check-out date cannot be earlier than the check-in date.")  # noqa
-                    messages.warning(request, "Check-out date cannot be earlier than the check-in date.")  # noqa
+                    form.add_error(
+                        'check_out_date',
+                        "Check-out date can't be earlier than check-in date."
+                    )
+                    messages.warning(
+                        request,
+                        "Check-out date can't be earlier than check-in date."
+                    )
                 elif check_in_date == check_out_date:
-                    form.add_error('check_out_date', "Check-out date cannot be the same as the check-in date.")  # noqa
-                    messages.warning(request, "Check-out date cannot be the same as the check-in date.")  # noqa
+                    form.add_error(
+                        'check_out_date',
+                        "Check-out date can't be the same as check-in date."
+                    )
+                    messages.warning(
+                        request,
+                        "Check-out date can't be the same as check-in date."
+                    )
                 else:
-                    # Check if the cabin is already booked for the selected dates  # noqa
                     existing_bookings = Booking.objects.filter(
                         cabin=cabin,
                         check_in_date__lte=check_out_date,
                         check_out_date__gte=check_in_date,
                     )
                     if existing_bookings.exists():
-                        form.add_error(None, "The cabin is already booked for the selected dates.")  # noqa
-                        messages.warning(request, "The cabin is already booked for the selected dates.")  # noqa
+                        form.add_error(
+                            None,
+                            "Cabin already booked for the selected dates"
+                        )
+                        messages.warning(
+                            request,
+                            "Cabin already booked for the selected dates"
+                        )
                     else:
                         booking.save()
-                        messages.success(request, "New booking created successfully.")  # noqa
-                        return redirect('booking_success', cabin_id=cabin.id, booking_id=booking.id)  # noqa
+                        messages.success(
+                            request,
+                            "New booking created successfully."
+                        )
+                        return redirect(
+                            'booking_success',
+                            cabin_id=cabin.id,
+                            booking_id=booking.id
+                        )
         else:
             for field, errors in form.errors.items():
                 for error in errors:
                     if field != '__all__':
-                        messages.warning(request, f"{form[field].label}: {error}")  # noqa
+                        messages.warning(
+                            request,
+                            f"{form[field].label}: {error}"
+                        )
     else:
         form = BookingForm()
 
-    booked_dates = Booking.objects.filter(cabin=cabin).values_list('check_in_date', 'check_out_date')  # noqa
+    booked_dates = Booking.objects.filter(cabin=cabin).values_list(
+        'check_in_date',
+        'check_out_date'
+    )
 
-    booked_dates_str = [[str(check_in_date), str(check_out_date)] for check_in_date, check_out_date in booked_dates]  # noqa
+    booked_dates_str = [
+        [str(check_in_date), str(check_out_date)]
+        for check_in_date, check_out_date in booked_dates
+    ]
 
     context = {
         'cabin': cabin,
@@ -110,7 +161,13 @@ def booking_success(request, cabin_id, booking_id):
     check_in_date = booking.check_in_date
     check_out_date = booking.check_out_date
 
-    context = {'cabin': cabin, 'booking': booking, 'num_guests': num_guests, 'check_in_date': check_in_date, 'check_out_date': check_out_date}  # noqa
+    context = {
+        'cabin': cabin,
+        'booking': booking,
+        'num_guests': num_guests,
+        'check_in_date': check_in_date,
+        'check_out_date': check_out_date,
+    }
     return render(request, 'booking_success.html', context)
 
 
@@ -130,25 +187,44 @@ def edit_booking(request, booking_id):
         if form.is_valid():
             num_guests = form.cleaned_data['num_guests']
             if num_guests <= 0:
-                form.add_error('num_guests', "The number of guests must be greater than zero.")  # noqa
-                messages.warning(request, "The number of guests must be greater than zero.")  # noqa
+                form.add_error(
+                    'num_guests',
+                    "The number of guests must be greater than zero.")
+                messages.warning(
+                    request,
+                    "The number of guests must be greater than zero.")
             elif num_guests > booking.cabin.max_guests:
-                form.add_error('num_guests', "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
-                messages.warning(request, "The number of guests exceeds the maximum allowed for this cabin.")  # noqa
+                form.add_error(
+                    'num_guests',
+                    "Exceeds maximum guests allowed.")
+                messages.warning(
+                    request,
+                    "Exceeds maximum guests allowed.")
             else:
                 check_in_date = form.cleaned_data['check_in_date']
                 check_out_date = form.cleaned_data['check_out_date']
                 today = timezone.now().date()
 
                 if check_in_date < today:
-                    form.add_error('check_in_date', "Please select a future check-in date.")  # noqa
-                    messages.warning(request, "Please select a future check-in date.")  # noqa
+                    form.add_error(
+                        'check_in_date',
+                        "Please select a future check-in date.")
+                    messages.warning(
+                        request,
+                        "Please select a future check-in date.")
                 elif check_out_date < check_in_date:
-                    form.add_error('check_out_date', "Check-out date cannot be earlier than the check-in date.")  # noqa
-                    messages.warning(request, "Check-out date cannot be earlier than the check-in date.")  # noqa
-                elif check_in_date == check_out_date:
-                    form.add_error('check_out_date', "Check-out date cannot be the same as the check-in date.")  # noqa
-                    messages.warning(request, "Check-out date cannot be the same as the check-in date.")  # noqa
+                    form.add_error(
+                        'check_out_date',
+                        "Check-out date can't be earlier than check-in date.")
+                    messages.warning(
+                        request,
+                        "Check-out date can't be earlier than check-in date.")
+                    form.add_error(
+                        'check_out_date',
+                        "Check-out date can't be the same as check-in date.")
+                    messages.warning(
+                        request,
+                        "Check-out date can't be the same as check-in date.")
                 else:
                     overlapping_bookings = booked_dates.filter(
                         check_in_date__lte=check_out_date,
@@ -156,22 +232,32 @@ def edit_booking(request, booking_id):
                     )
 
                     if overlapping_bookings.exists():
-                        form.add_error(None, "The cabin is already booked for the selected dates.")  # noqa
-                        messages.warning(request, "The cabin is already booked for the selected dates.")  # noqa
+                        form.add_error(
+                            None,
+                            "Cabin already booked for the selected dates")
+                        messages.warning(
+                            request,
+                            "Cabin already booked for the selected dates")
                     else:
                         form.save()
-                        messages.success(request, "Booking updated successfully.")  # noqa
+                        messages.success(
+                            request,
+                            "Booking updated successfully.")
                         return redirect('booking_overview')
         else:
             for field, errors in form.errors.items():
                 for error in errors:
                     if field != '__all__':
-                        messages.warning(request, f"{form[field].label}: {error}")  # noqa
+                        messages.warning(
+                            request,
+                            f"{form[field].label}: {error}")
     else:
         form = BookingForm(instance=booking)
 
     booked_dates = booked_dates.values_list('check_in_date', 'check_out_date')
-    booked_dates_str = [[str(check_in_date), str(check_out_date)] for check_in_date, check_out_date in booked_dates]  # noqa
+    booked_dates_str = [[str(check_in_date),
+                        str(check_out_date)] for check_in_date,
+                        check_out_date in booked_dates]
 
     context = {
         'form': form,
