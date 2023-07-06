@@ -18,7 +18,7 @@ Cabin Booking
                     <p class="card-text">Maximum Guests: {{cabin.max_guests}} </p>
                     <p class="card-text">Price: {{cabin.price}}€ </p>
                     {% if cabin.amenities.exists %}
-                    <p class="card-text">Amenities:</p>
+                    <p class="card-text">Amenities (optional):</p>
                     <ul>
                         {% for amenity in cabin.amenities.all %}
                         <li>{{ amenity.name }} Price: {{ amenity.price }}€</li>
