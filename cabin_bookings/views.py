@@ -118,37 +118,37 @@ def booking_create(request, cabin_id):
                                                    'cave_exploration_tickets')
                         kayak_rentals = form.cleaned_data.get('kayak_rentals')
 
-                    if cave_exploration_tickets and cave_exploration_tickets < 0:  # noqa
-                        form.add_error(
-                            'cave_exploration_tickets',
-                            "Cave exploration tickets can't be negative."
-                        )
-                        messages.warning(
-                            request,
-                            "Cave exploration tickets can't be negative."
-                        )
+                        if cave_exploration_tickets and cave_exploration_tickets < 0:  # noqa
+                            form.add_error(
+                                'cave_exploration_tickets',
+                                "Cave exploration tickets can't be negative."
+                            )
+                            messages.warning(
+                                request,
+                                "Cave exploration tickets can't be negative."
+                            )
 
-                    if kayak_rentals and kayak_rentals < 0:
-                        form.add_error(
-                            'kayak_rentals',
-                            "The number of kayak rentals cannot be negative."
-                        )
-                        messages.warning(
-                            request,
-                            "The number of kayak rentals cannot be negative."
-                        )
+                        if kayak_rentals and kayak_rentals < 0:
+                            form.add_error(
+                                'kayak_rentals',
+                                "Number of kayak rentals can't be negative."
+                            )
+                            messages.warning(
+                                request,
+                                "Number of kayak rentals can't be negative."
+                            )
 
-                    if not form.errors:
-                        booking.save()
-                        messages.success(
-                            request,
-                            "New booking created successfully."
-                        )
-                        return redirect(
-                            'booking_success',
-                            cabin_id=cabin.id,
-                            booking_id=booking.id
-                        )
+                        if not form.errors:
+                            booking.save()
+                            messages.success(
+                                request,
+                                "New booking created successfully."
+                            )
+                            return redirect(
+                                'booking_success',
+                                cabin_id=cabin.id,
+                                booking_id=booking.id
+                            )
         else:
             for field, errors in form.errors.items():
                 for error in errors:
@@ -212,7 +212,10 @@ def edit_booking(request, booking_id):
     booked_dates = Booking.objects.filter(cabin=booking.cabin).exclude(id=booking_id)  # noqa
 
     if request.method == 'POST':
-        form = BookingForm(request.POST, instance=booking)
+        form = BookingForm(request.POST, instance=booking, initial={
+            'cave_exploration_tickets': booking.cave_exploration_tickets,
+            'kayak_rentals': booking.kayak_rentals,
+        })
         if form.is_valid():
             num_guests = form.cleaned_data['num_guests']
             if num_guests <= 0:
@@ -268,11 +271,39 @@ def edit_booking(request, booking_id):
                             request,
                             "Cabin already booked for the selected dates")
                     else:
-                        form.save()
-                        messages.success(
-                            request,
-                            "Booking updated successfully.")
-                        return redirect('booking_overview')
+                        cave_exploration_tickets = form.cleaned_data.get(
+                                                   'cave_exploration_tickets')
+                        kayak_rentals = form.cleaned_data.get('kayak_rentals')
+                        if cave_exploration_tickets and (
+                           cave_exploration_tickets <
+                           0 or cave_exploration_tickets > num_guests):
+                            form.add_error(
+                                'cave_exploration_tickets',
+                                "Invalid number of cave exploration tickets."
+                            )
+                            messages.warning(
+                                request,
+                                "Invalid number of cave exploration tickets."
+                            )
+
+                        if kayak_rentals and (
+                           kayak_rentals < 0 or kayak_rentals > 10):
+                            form.add_error(
+                                'kayak_rentals',
+                                "Number of kayak rentals can't be negative."
+                            )
+                            messages.warning(
+                                request,
+                                "Number of kayak rentals can't be negative."
+                            )
+
+                        if not form.errors:
+                            form.save()
+                            messages.success(
+                                request,
+                                "Booking updated successfully."
+                            )
+                            return redirect('booking_overview')
         else:
             for field, errors in form.errors.items():
                 for error in errors:
