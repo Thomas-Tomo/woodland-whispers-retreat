@@ -8,7 +8,7 @@ Edit Booking
 <div class="container">
     <h2 class="text-center custom-heading">Edit Booking</h2>
     <div class="row">
-        <div class="col-md-4 mb-4">
+        <div class="col-md-6 offset-md-3 mb-4">
             <div class="card">
                 <img src="{{ booking.cabin.image.url }}" class="card-img-top" alt="{{ booking.cabin.name }}">
                 <div class="card-body">
@@ -54,6 +54,19 @@ Edit Booking
                             <div class="col-sm-8">
                                 <input type="number" class="form-control" id="guests" name="num_guests"
                                     value="{{ booking.num_guests }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="cave-tickets" class="col-sm-4 col-form-label">Cave Exploration Tickets</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="cave-tickets"
+                                    name="cave_exploration_tickets">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="kayak-rentals" class="col-sm-4 col-form-label">Kayak Rentals</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="kayak-rentals" name="kayak_rentals">
                             </div>
                         </div>
                         <div class="form-group row">

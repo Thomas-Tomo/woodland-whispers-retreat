@@ -22,6 +22,12 @@ Booking Overview
                     <p class="card-text">Guests: {{ booking.num_guests }}</p>
                     <p class="card-text">Bedrooms: {{ booking.cabin.bedrooms }}</p>
                     <p class="card-text">Price: {{ booking.cabin.price }}€</p>
+                    {% if booking.cave_exploration_tickets %}
+                    <p class="card-text">Cave Exploration: {{ booking.cave_exploration_tickets }} Tickets</p>
+                    {% endif %}
+                    {% if booking.kayak_rentals %}
+                    <p class="card-text">Kayak Rentals: {{ booking.kayak_rentals }} Kayaks</p>
+                    {% endif %}
                     <div class="btn-group">
                         <a href="{% url 'edit_booking' booking.id %}" class="btn btn-primary btn-sm">Edit</a>
                         <a href="{% url 'delete_booking' booking.id %}" class="btn btn-danger btn-sm">Delete</a>
