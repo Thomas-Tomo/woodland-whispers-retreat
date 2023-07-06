@@ -7,6 +7,14 @@ from django.utils import timezone
 # Create your models here.
 
 
+class Amenity(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+
+    def __str__(self):
+        return self.name
+
+
 class Cabin(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -14,6 +22,7 @@ class Cabin(models.Model):
     image = CloudinaryField('log_cabin_images')
     max_guests = models.PositiveIntegerField(default=1)
     bedrooms = models.PositiveIntegerField(default=1)
+    amenities = models.ManyToManyField(Amenity)
 
     def __str__(self):
         return self.name
@@ -25,6 +34,9 @@ class Booking(models.Model):
     check_in_date = models.DateField()
     check_out_date = models.DateField()
     num_guests = models.PositiveIntegerField()
+    cave_exploration_tickets = models.PositiveIntegerField(
+                               default=0, null=True)
+    kayak_rentals = models.PositiveIntegerField(default=0, null=True)
 
     def __str__(self):
         return f"Booking {self.id} - Cabin: {self.cabin.name}, User: {self.user.username}"  # noqa
