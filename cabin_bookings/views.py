@@ -185,6 +185,8 @@ def booking_success(request, cabin_id, booking_id):
     num_guests = booking.num_guests
     check_in_date = booking.check_in_date
     check_out_date = booking.check_out_date
+    cave_exploration_tickets = booking.cave_exploration_tickets
+    kayak_rentals = booking.kayak_rentals
 
     context = {
         'cabin': cabin,
@@ -192,6 +194,8 @@ def booking_success(request, cabin_id, booking_id):
         'num_guests': num_guests,
         'check_in_date': check_in_date,
         'check_out_date': check_out_date,
+        'cave_exploration_tickets': cave_exploration_tickets,
+        'kayak_rentals': kayak_rentals,
     }
     return render(request, 'booking_success.html', context)
 
