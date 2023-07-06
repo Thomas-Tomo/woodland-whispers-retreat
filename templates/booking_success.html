@@ -20,6 +20,12 @@ Booking Successful
                     <p class="card-text">Guests: {{ booking.num_guests }}</p>
                     <p class="card-text">Bedrooms: {{ booking.cabin.bedrooms }}</p>
                     <p class="card-text">Price: {{ booking.cabin.price }}€</p>
+                    {% if booking.cave_exploration_tickets %}
+                    <p class="card-text">Cave Exploration: {{ booking.cave_exploration_tickets }} Tickets</p>
+                    {% endif %}
+                    {% if booking.kayak_rentals %}
+                    <p class="card-text">Kayak Rentals: {{ booking.kayak_rentals }} Kayaks</p>
+                    {% endif %}
                     <p class="card-text">If you have any questions or need further assistance, please contact us</p>
                     <a href="{% url 'contact' %}" class="btn btn-info mb-1">Contact Us</a>
                     <a href="{% url 'booking_overview' %}" class="btn btn-success">My Bookings</a>
