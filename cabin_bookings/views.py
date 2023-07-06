@@ -8,7 +8,7 @@ import json
 from django.views import generic, View
 from .forms import BookingForm
 from django.db.models import Q
-from .models import Cabin, Booking
+from .models import Cabin, Booking, Amenity
 
 
 # Create your views here.
@@ -28,7 +28,7 @@ def cabin_list(request):
 
 
 def cabin_booking(request):
-    all_cabins = Cabin.objects.all()
+    all_cabins = Cabin.objects.all().prefetch_related('amenities')
     paginator = Paginator(all_cabins, 6)  # Display 6 cabins per page
     page_number = request.GET.get('page')
     cabins = paginator.get_page(page_number)
@@ -114,6 +114,31 @@ def booking_create(request, cabin_id):
                             "Cabin already booked for the selected dates"
                         )
                     else:
+                        cave_exploration_tickets = form.cleaned_data.get(
+                                                   'cave_exploration_tickets')
+                        kayak_rentals = form.cleaned_data.get('kayak_rentals')
+
+                    if cave_exploration_tickets and cave_exploration_tickets < 0:  # noqa
+                        form.add_error(
+                            'cave_exploration_tickets',
+                            "Cave exploration tickets can't be negative."
+                        )
+                        messages.warning(
+                            request,
+                            "Cave exploration tickets can't be negative."
+                        )
+
+                    if kayak_rentals and kayak_rentals < 0:
+                        form.add_error(
+                            'kayak_rentals',
+                            "The number of kayak rentals cannot be negative."
+                        )
+                        messages.warning(
+                            request,
+                            "The number of kayak rentals cannot be negative."
+                        )
+
+                    if not form.errors:
                         booking.save()
                         messages.success(
                             request,
