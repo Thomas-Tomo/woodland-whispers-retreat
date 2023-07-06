@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import Cabin, Booking
+from .models import Cabin, Booking, Amenity
 
 # Register your models here.
 
+admin.site.register(Amenity)
 admin.site.register(Cabin)
 
 
