@@ -138,7 +138,22 @@ def booking_create(request, cabin_id):
                                 "Number of kayak rentals can't be negative."
                             )
 
+                        cave_exploration_tickets = cave_exploration_tickets or 0  # noqa
+                        kayak_rentals = kayak_rentals or 0
+
                         if not form.errors:
+                            duration = (check_out_date - check_in_date).days
+                            # Calculate total price based on duration
+                            total_price = cabin.price * duration
+
+                            total_price += (
+                                cave_exploration_tickets * Amenity.objects.get(
+                                    name='Cave Exploration').price)
+                            total_price += (
+                                kayak_rentals * Amenity.objects.get(
+                                    name='Kayak Rental').price)
+
+                            booking.total_price = total_price
                             booking.save()
                             messages.success(
                                 request,
