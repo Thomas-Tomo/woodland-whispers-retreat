@@ -37,6 +37,8 @@ class Booking(models.Model):
     cave_exploration_tickets = models.PositiveIntegerField(
                                default=0, null=True)
     kayak_rentals = models.PositiveIntegerField(default=0, null=True)
+    total_price = models.DecimalField(
+                  max_digits=8, decimal_places=2, default=0)
 
     def __str__(self):
         return f"Booking {self.id} - Cabin: {self.cabin.name}, User: {self.user.username}"  # noqa
