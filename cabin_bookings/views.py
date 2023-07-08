@@ -130,14 +130,15 @@ def booking_create(request, cabin_id):
                                 "Tickets can't exceed num of selected guests."
                             )
 
-                        if kayak_rentals and kayak_rentals < 0:
+                        if kayak_rentals and (
+                                kayak_rentals < 0 or kayak_rentals > 10):
                             form.add_error(
                                 'kayak_rentals',
-                                "Number of kayak rentals can't be negative."
+                                "Kayak rental ranges from 0 to 10"
                             )
                             messages.warning(
                                 request,
-                                "Number of kayak rentals can't be negative."
+                                "Kayak rental ranges from 0 to 10"
                             )
 
                         cave_exploration_tickets = cave_exploration_tickets or 0  # noqa
