@@ -118,14 +118,16 @@ def booking_create(request, cabin_id):
                                                    'cave_exploration_tickets')
                         kayak_rentals = form.cleaned_data.get('kayak_rentals')
 
-                        if cave_exploration_tickets and cave_exploration_tickets < 0:  # noqa
+                        if cave_exploration_tickets and (
+                                cave_exploration_tickets < 0 or
+                                cave_exploration_tickets > num_guests):
                             form.add_error(
                                 'cave_exploration_tickets',
                                 "Cave exploration tickets can't be negative."
                             )
                             messages.warning(
                                 request,
-                                "Cave exploration tickets can't be negative."
+                                "Tickets can't exceed num of selected guests."
                             )
 
                         if kayak_rentals and kayak_rentals < 0:
@@ -224,29 +226,31 @@ def booking_overview(request):
 @login_required
 def edit_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id, user=request.user)
-    booked_dates = Booking.objects.filter(cabin=booking.cabin).exclude(id=booking_id)  # noqa
+    booked_dates = Booking.objects.filter(
+                   cabin=booking.cabin).exclude(id=booking_id)
 
     if request.method == 'POST':
-        form = BookingForm(request.POST, instance=booking, initial={
-            'cave_exploration_tickets': booking.cave_exploration_tickets,
-            'kayak_rentals': booking.kayak_rentals,
-        })
+        form = BookingForm(request.POST, instance=booking)
         if form.is_valid():
             num_guests = form.cleaned_data['num_guests']
             if num_guests <= 0:
                 form.add_error(
                     'num_guests',
-                    "The number of guests must be greater than zero.")
+                    "The number of guests must be greater than zero."
+                )
                 messages.warning(
                     request,
-                    "The number of guests must be greater than zero.")
+                    "The number of guests must be greater than zero."
+                )
             elif num_guests > booking.cabin.max_guests:
                 form.add_error(
                     'num_guests',
-                    "Exceeds maximum guests allowed.")
+                    "Exceeds maximum guests allowed."
+                )
                 messages.warning(
                     request,
-                    "Exceeds maximum guests allowed.")
+                    "Exceeds maximum guests allowed."
+                )
             else:
                 check_in_date = form.cleaned_data['check_in_date']
                 check_out_date = form.cleaned_data['check_out_date']
@@ -255,23 +259,30 @@ def edit_booking(request, booking_id):
                 if check_in_date < today:
                     form.add_error(
                         'check_in_date',
-                        "Please select a future check-in date.")
+                        "Please select a future check-in date."
+                    )
                     messages.warning(
                         request,
-                        "Please select a future check-in date.")
+                        "Please select a future check-in date."
+                    )
                 elif check_out_date < check_in_date:
                     form.add_error(
                         'check_out_date',
-                        "Check-out date can't be earlier than check-in date.")
+                        "Check-out date can't be earlier than check-in date."
+                    )
                     messages.warning(
                         request,
-                        "Check-out date can't be earlier than check-in date.")
+                        "Check-out date can't be earlier than check-in date."
+                    )
+                elif check_in_date == check_out_date:
                     form.add_error(
                         'check_out_date',
-                        "Check-out date can't be the same as check-in date.")
+                        "Check-out date can't be the same as check-in date."
+                    )
                     messages.warning(
                         request,
-                        "Check-out date can't be the same as check-in date.")
+                        "Check-out date can't be the same as check-in date."
+                    )
                 else:
                     overlapping_bookings = booked_dates.filter(
                         check_in_date__lte=check_out_date,
@@ -281,39 +292,56 @@ def edit_booking(request, booking_id):
                     if overlapping_bookings.exists():
                         form.add_error(
                             None,
-                            "Cabin already booked for the selected dates")
+                            "Cabin already booked for the selected dates"
+                        )
                         messages.warning(
                             request,
-                            "Cabin already booked for the selected dates")
+                            "Cabin already booked for the selected dates"
+                        )
                     else:
                         cave_exploration_tickets = form.cleaned_data.get(
                                                    'cave_exploration_tickets')
                         kayak_rentals = form.cleaned_data.get('kayak_rentals')
+
                         if cave_exploration_tickets and (
-                           cave_exploration_tickets <
-                           0 or cave_exploration_tickets > num_guests):
+                                cave_exploration_tickets < 0 or
+                                cave_exploration_tickets > num_guests):
                             form.add_error(
                                 'cave_exploration_tickets',
-                                "Invalid number of cave exploration tickets."
+                                "Tickets can't exceed num of selected guests."
                             )
                             messages.warning(
                                 request,
-                                "Invalid number of cave exploration tickets."
+                                "Tickets can't exceed num of selected guests."
                             )
 
                         if kayak_rentals and (
-                           kayak_rentals < 0 or kayak_rentals > 10):
+                                kayak_rentals < 0 or kayak_rentals > 10):
                             form.add_error(
                                 'kayak_rentals',
-                                "Number of kayak rentals can't be negative."
+                                "Kayak rental ranges from 0 to 10"
                             )
                             messages.warning(
                                 request,
-                                "Number of kayak rentals can't be negative."
+                                "Kayak rental ranges from 0 to 10"
                             )
 
                         if not form.errors:
-                            form.save()
+                            duration = (check_out_date - check_in_date).days
+                            total_price = booking.cabin.price * duration
+
+                            total_price += (
+                                cave_exploration_tickets or
+                                0) * Amenity.objects.get(
+                                name='Cave Exploration').price
+                            total_price += (
+                                kayak_rentals or
+                                0) * Amenity.objects.get(
+                                name='Kayak Rental').price
+
+                            booking.total_price = total_price
+                            booking.save()
+
                             messages.success(
                                 request,
                                 "Booking updated successfully."
@@ -325,14 +353,17 @@ def edit_booking(request, booking_id):
                     if field != '__all__':
                         messages.warning(
                             request,
-                            f"{form[field].label}: {error}")
+                            f"{form[field].label}: {error}"
+                        )
     else:
-        form = BookingForm(instance=booking)
+        form = BookingForm(instance=booking, initial={
+            'cave_exploration_tickets': booking.cave_exploration_tickets,
+            'kayak_rentals': booking.kayak_rentals,
+        })
 
     booked_dates = booked_dates.values_list('check_in_date', 'check_out_date')
-    booked_dates_str = [[str(check_in_date),
-                        str(check_out_date)] for check_in_date,
-                        check_out_date in booked_dates]
+    booked_dates_str = [[str(check_in_date), str(check_out_date)] for
+                        check_in_date, check_out_date in booked_dates]
 
     context = {
         'form': form,
