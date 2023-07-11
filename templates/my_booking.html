@@ -5,6 +5,8 @@ Cabin Booking
 {% endblock %}
 
 {% block content %}
+<!-- Make a Booking -->
+
 <div class="container mb-4">
     <h2 class="text-center custom-heading">Make a Booking</h2>
     <div class="row">
@@ -86,9 +88,10 @@ Cabin Booking
     </div>
 </div>
 <script>
-    var bookedDatesJson = '{{ booked_dates_json|safe }}';
+    /* Set up a flatpickr date picker and disable already booked dates */
+    let bookedDatesJson = '{{ booked_dates_json|safe }}';
     if (bookedDatesJson) {
-        var bookedDates = JSON.parse(bookedDatesJson);
+        let bookedDates = JSON.parse(bookedDatesJson);
         document.addEventListener('DOMContentLoaded', function () {
             flatpickr('.flatpickr', {
                 dateFormat: 'Y-m-d',

@@ -32,11 +32,12 @@ development = os.environ.get('DEVELOPMENT')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-# Use this one for Heroku deployment
+# Use this for Heroku deployment
 DEBUG = development
-# DEBUG = True
 
-ALLOWED_HOSTS = ['woodland-whispers-retreat.herokuapp.com', '8000-thomastomo-woodlandwhis-e3wnovowvr4.ws-eu101.gitpod.io', 'localhost']  # noqa
+ALLOWED_HOSTS = ['woodland-whispers-retreat.herokuapp.com',
+                 '8000-thomastomo-woodlandwhis-e3wnovowvr4.ws-eu101.gitpod.io',
+                 'localhost']
 
 
 # Application definition

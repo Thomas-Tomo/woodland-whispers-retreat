@@ -1,18 +1,18 @@
 // Alert messages fade out animation
-$(document).ready(function() {
-    setTimeout(function() {
-      $('.alert').fadeOut('slow');
-    }, 3000);
-  });
+$(document).ready(function () {
+  setTimeout(function () {
+    $('.alert').fadeOut('slow');
+  }, 3000);
+});
 
 // Scroll animaton to about section
-$(document).ready(function() {
+$(document).ready(function () {
   // Smooth scroll to the About section on clicking the "About" link
-  $(".about-link").click(function(event) {
+  $(".about-link").click(function (event) {
     event.preventDefault(); // Prevent the default link behavior
 
-    var aboutSection = $("#about-container");
-    var targetUrl = $(this).data("target-url"); // Retrieve the target URL from data attribute
+    let aboutSection = $("#about-container");
+    let targetUrl = $(this).data("target-url"); // Retrieve the target URL from data attribute
 
     // Check if the current page is the home page
     if (window.location.pathname === targetUrl) {
