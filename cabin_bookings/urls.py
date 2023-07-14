@@ -1,7 +1,8 @@
 from . import views
 from django.urls import path
 from django.conf.urls import handler404
-from .views import custom_handler404
+from django.conf.urls import handler500
+from .views import custom_handler404, custom_handler500
 
 # Url Mapping
 urlpatterns = [
@@ -24,3 +25,4 @@ urlpatterns = [
 ]
 
 handler404 = custom_handler404
+handler500 = custom_handler500
