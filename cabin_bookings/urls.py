@@ -1,5 +1,7 @@
 from . import views
 from django.urls import path
+from django.conf.urls import handler404
+from .views import custom_handler404
 
 # Url Mapping
 urlpatterns = [
@@ -20,3 +22,5 @@ urlpatterns = [
     path('booking/<int:booking_id>/delete/',
          views.delete_booking, name='delete_booking'),
 ]
+
+handler404 = custom_handler404

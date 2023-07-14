@@ -444,3 +444,7 @@ def delete_booking(request, booking_id):
         return redirect('booking_overview')
 
     return render(request, 'delete_booking.html', {'booking': booking})
+
+
+def custom_handler404(request, exception):
+    return render(request, '404.html', status=404)
