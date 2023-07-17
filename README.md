@@ -567,3 +567,25 @@ Site is now live
 
 ## Testing
 Please see  [TESTING.md]() for all the detailed testing performed.
+
+## References
+### Docs
+
+* [Stack Overflow](https://stackoverflow.com/)
+* [Code Institute](https://learn.codeinstitute.net/dashboard)
+* [Bootstrap 4.6](https://getbootstrap.com/docs/4.6/getting-started/introduction/)
+* [Django docs](https://docs.djangoproject.com/en/4.2/releases/3.2/)
+* [Django Allauth](https://django-allauth.readthedocs.io/en/latest/)
+* [Django and Static Assets](https://devcenter.heroku.com/articles/django-assets)
+* [Cloudinary](https://cloudinary.com/documentation/diagnosing_error_codes_tutorial)
+* [Google](https://www.google.com/)
+
+### Content
+
+* All of the content is imaginary and written by the developer, me, Thomas-Tomo Domitrovic.
+* All images were generated with Artificial intelligence (AI) based on my word input and description of the cabins and logo.
+
+### Acknowledgments
+
+* I would like to thank my mentor for support and feedback throughout this project, Mitko Bachvarov.
+* I would also like to extend my appreciation to the Slack community for their continuous engagement and willingness to share knowledge. The collaborative environment provided a platform for learning, troubleshooting, and gaining inspiration from fellow developers.
