@@ -290,3 +290,159 @@ This data scheme allows for the management of users, amenities, cabins, and book
 
 * 404 Error Page, provides user with a button the redirect to home page.
 * 500 Error Page, provides user with a button the redirect to home page.
+
+## Features
+
+* Home page showcases a rotating carousel that contains available cabins
+* The website features a comprehensive list of amenities accompanied by detailed descriptions for each one.
+* User can make an account and login
+* When logged in, users get access to the cabin overview and are able to book cabins
+* Users can edit and delete their bookings
+* Every user action is accompanied by a corresponding message to ensure that users are promptly notified of any changes or updates.
+* Total price of booking is displayed to users.
+
+### Existing Features
+
+* Home Page
+    * Displays a navigation bar with logo, main heading, amenities details, carousel cabin view, about section, footer with socials
+
+![Home Page](documentation/readme_images/home-page.PNG)
+
+* Once logged in the Sign Up button changes to Book Now button
+
+![Book Now](documentation/readme_images/book-now.PNG)
+
+
+* Logo
+    * Logo was created using [Craiyon](https://www.craiyon.com/) AI image generator, in which I used words to describe the logo and then it was generated.
+
+![Logo](documentation/readme_images/logo.PNG)
+
+* Navigation Bar
+    * It differs if its a user, admin or just a visitor
+
+    * Navigation bar for a visitor
+
+    ![Visitor](documentation/readme_images/navigation-bar.PNG)
+
+    * Navigation bar for a user
+    ![User](documentation/readme_images/user-navigation-bar.PNG)
+    ![User Dropdown](documentation/readme_images/user-dropdown.PNG)
+
+    * Navigation bar for admin
+    ![Admin](documentation/readme_images/admin-navigation-bar.PNG)
+    ![Admin Dropdown](documentation/readme_images/admin-dropdown.PNG)
+
+* Amenities
+    * Description of the amenities which user might like to experience.
+
+![Amenities](documentation/readme_images/amenities.PNG)
+
+* Cabin Carousel
+    * When on home page there is a carousel that displays all available cabins for booking, it also has controls to move left or right, name and description of the cabin, when its clicked it redirects users to cabin overview page and visitors are asked to create an account or login in order to view the cabins in greater detail.
+
+![Cabin Carousel](documentation/readme_images/carousel.PNG)
+
+* About Section
+    * It contains a short description of Woodland Whispers Retreat and a short lake tale
+
+![About](documentation/readme_images/about.PNG)
+
+* Footer
+    * Contains copyright information, creator and social links which are all linked to the creator of the website, becuase purpouse of this website is educational.
+
+![Footer](documentation/readme_images/footer.PNG)
+
+* Contact Page
+    * For educational purposes, the website includes fictional contact information such as an address, phone number, and email. It also includes social links, which are all linked to developer for educational purposes.
+
+![Contact](documentation/readme_images/contact.PNG)
+
+* Sign up
+    * User can create an account
+
+![Sign Up](documentation/readme_images/sign-up.PNG)
+
+* Login
+    * User can login into an account, if they have created one
+
+![Login](documentation/readme_images/login.PNG)
+![Login Message](documentation/readme_images/login-message.PNG)
+
+* Browse Available Cabins
+    * Admin can create cabins through django admin panel
+    * Cabins are paginated to display 6 cabins per page
+
+![Browse Cabins](documentation/readme_images/browse-cabins.PNG)
+
+* Cabin pagination
+    * On the bottom of the page
+
+![Pagination](documentation/readme_images/pagination.PNG)
+
+* Logout
+    * User can logout
+
+![Logout](documentation/readme_images/logout.PNG)
+
+* Make a Booking
+    * Users can make a booking by clicking the cabin they want and then read details and fill in the booking form.
+    * Form validation is implemented to make sure form are submitted correctly and if there is an error user will be notified with alert message, also if everything is good, user gets a message to notifiy them.
+    * Form contains amenities which are completely optional and they dont have to be selected.
+
+    ![Message](documentation/readme_images/alert-message.PNG)
+
+![Make a Booking](documentation/readme_images/make-a-booking.PNG)
+
+* Booking Succesful
+    * If booking is succesfull, user gets a notified message and an overview of the booking they just made, which includes all the details and a total price of the booking, also there is a button for contact page and my booking button that leads to all of the users bookings.
+
+![Booking Succesful](documentation/readme_images/booking-successful.PNG)
+
+* Booking Overview
+    * Includes all of the user bookings, which have buttons to edit or delete bookings.
+
+![Booking Overview](documentation/readme_images/my-bookings.PNG)
+
+* Already booked dates
+    * User won't be able to book dates that are already booked.
+    * Dates in the past are unavailable.
+
+![Booked Dates](documentation/readme_images/booked-dates.PNG)
+
+* Edit Booking
+    * User can change their booking and save changes
+
+![Edit Booking](documentation/readme_images/edit-booking.PNG)
+
+* Delete Booking
+    * User can delete their booking, before it is deleted it has to be confirmed.
+
+![Delete Booking](documentation/readme_images/delete-booking.PNG)
+
+* Alert messages
+    * For every action there is an alert message to notify user
+    * Here is one example
+
+![Alert Message](documentation/readme_images/delete-message.PNG)
+
+* Admin Features
+    * Django built in admin panel allows admin control over the website.
+    * Admin can access admin panel through his navigation bar
+    * Can add, update, delete cabins.
+    * Create amenities, update existing amenities which are connected to the cabins.
+    * Delete accounts, verifiy emails, delete bookings...
+
+* Error Pages
+    * There are custom 404 and 500 error pages set up.
+    * They contain buttons to redirect to home page if there is an error.
+
+![Error](documentation/readme_images/error.PNG)
+
+### Features Left to Implement 
+
+* User Reviews: Allow users to leave reviews and ratings for cabins they have booked, providing valuable feedback for other users.
+* Advanced Search: Implement an advanced search functionality, enabling users to search for cabins based on specific criteria such as price range, amenities, and availability.
+* Cabin Recommendations: Develop a recommendation engine that suggests cabins to users based on their previous bookings, interests, or preferences.
+* Online Payment: Implement an online payment system to allow users to securely make payments for their bookings directly through the website.
+* For the purposes of this project these implemenation were not necessary.
