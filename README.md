@@ -9,6 +9,39 @@ Discover a serene lakeside getaway at Woodland Whispers Retreat. Our Django-base
 - - -
 
 ## Table of Contents
+### [User Experience](#user-experience-ux)
+* [Project Goals](#project-goals)
+* [Agile Methodology](#agile-methodology)
+* [Target Audience](#target-audience)
+* [First time user](#first-time-user)
+* [Registered user](#registered-user)
+* [Admin user](#admin-user)
+### [Design](#design-1)
+* [Color Scheme](#color-scheme)
+* [Cabin Images](#cabin-images)
+* [Wireframes](#wireframes)
+* [Data Model](#data-models)
+* [User Journey](#user-journey)
+* [Database Scheme](#database-scheme)
+### [Security Features](#security-features-1)
+### [Features](#features-1)
+* [Existing Features](#existing-features)
+* [Features Left to Implement](#features-left-to-implement)
+### [Technologies Used](#technologies-used-1)
+* [Languages Used](#languages-used)
+* [Databases Used](#databases-used)
+* [Frameworks Used](#frameworks-used)
+* [Programs Used](#programs-used)
+### [Deployment and Local developement](#deployment-and-local-developement-1)
+* [Local Developement](#local-developement)
+* [ElephantSQL Database](#elephantsql-database)
+* [Cloudinary](#cloudinary)
+* [Heroku Deployment](#heroku-deployment)
+### [Testing](#testing-1)
+### [References](#references-1)
+* [Docs](#docs)
+* [Content](#content)
+* [Acknowledgments](#acknowledgments)
 
 ---
 
@@ -566,7 +599,7 @@ Live deployment can be found on this [View Woodland Whispers Retreat live websit
 Site is now live
 
 ## Testing
-Please see  [TESTING.md]() for all the detailed testing performed.
+Please see  [TESTING.md](TESTING.md) for all the detailed testing performed.
 
 ## References
 ### Docs
