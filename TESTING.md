@@ -5,7 +5,19 @@ Return to [README](README.md)
 Comprehensive testing has been performed to ensure the website's seamless and optimal functionality.
 
 ## Table of Contents
-
+### [Responsiveness Testing](#responsiveness-testing-1)
+### [Browser Compatibility Testing](#browser-compatibility-testing-1)
+### [Device Testing](#device-testing-1)
+### [Code Validation](#code-validation-1)
+* [HTML Validation](#html-validation)
+* [CSS Validation](#css-validation)
+* [JavaScript Validation](#javascript-validation)
+* [Python](#python)
+### [Lighthouse Report](#lighthouse-report-1)
+### [Bugs](#bugs-1)
+* [Resolved Bugs](#resolved-bugs)
+* [Unresolved Bugs](#unresolved-bug)
+### [Features Testing](#features-testing-1)
 ---
 
 ## Responsiveness Testing
@@ -471,6 +483,9 @@ Device testing was conducted on a variety of phone models, including Samsung Gal
 | 404 Error Page |  |    |    |
 |               | Type in URL that does not exists | Custom 404 Error page is displayed | PASS |
 |               | Click on Take Me Home button | Redirect to Home page | PASS |
+| 500 Error Page |  |    |    |
+|               | Admin raise exception in views.py | Custom 500 Error page is displayed, local development testing | PASS |
+|               | Click on Go to Homepage button | Redirect to Home page | PASS |
 | Admin Panel |  |    |    |
 |               | CRUD functionality | Working as expected | PASS |
 
