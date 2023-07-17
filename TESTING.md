@@ -77,3 +77,185 @@ The project was tested on multiple web browsers to check for compatibility issue
 ## Device Testing
 
 Device testing was conducted on a variety of phone models, including Samsung Galaxy A52, Oppo, iPhone 12, Huawei. The assistance of family members and friends was sought to perform the testing. This comprehensive approach ensured that the website was thoroughly evaluated on different devices and platforms, contributing to a more robust and user-friendly final product.
+
+## Code Validation
+
+### HTML Validation
+
+<details>
+<summary> Home Page
+</summary>
+
+![Home Page](documentation/validation/home-html-validation.PNG)
+</details>
+
+<details>
+<summary> Contact Page
+</summary>
+
+![Contact Page](documentation/validation/contact-html-validation.PNG)
+</details>
+
+<details>
+<summary> Sign Up Page
+</summary>
+
+![Sign Up Page](documentation/validation/sign-up-html-validation.PNG)
+</details>
+
+<details>
+<summary> Login Page
+</summary>
+
+![Login Page](documentation/validation/login-html-validation.PNG)
+</details>
+
+<details>
+<summary> Logout Page
+</summary>
+
+![Logout Page](documentation/validation/logout-html-validation.PNG)
+</details>
+
+<details>
+<summary> Browse Cabins Page
+</summary>
+
+![Browse Cabins Page](documentation/validation/cabin-booking-html-validation.PNG)
+</details>
+
+<details>
+<summary> Make a Booking Page
+</summary>
+
+![Make a Booking Page](documentation/validation/make-booking-html-validation.PNG)
+</details>
+
+<details>
+<summary> Booking Success Page
+</summary>
+
+![Booking Success Page](documentation/validation/booking-successful-html-validation.PNG)
+</details>
+
+<details>
+<summary> Booking Overview Page
+</summary>
+
+![Booking Overview Page](documentation/validation/booking-overview-html-validation.PNG)
+</details>
+
+<details>
+<summary> Edit Booking Page
+</summary>
+
+![Edit Booking Page](documentation/validation/edit-booking-html-validation.PNG)
+</details>
+
+<details>
+<summary> Delete Booking Page
+</summary>
+
+![Delete Booking Page](documentation/validation/delete-booking-html-validation.PNG)
+</details>
+
+<details>
+<summary> 404 Error Page
+</summary>
+
+![404 Error Page](documentation/validation/404-html-validation.PNG)
+</details>
+
+<details>
+<summary> 500 Error Page
+</summary>
+
+![500 Error Page]()
+</details>
+
+### CSS Validation
+
+<details>
+<summary> Custom CSS (style.css)
+</summary>
+
+![Custom CSS (style.css)](documentation/validation/css-validation.PNG)
+</details>
+
+### JavaScript Validation
+
+<details>
+<summary> Custom JS (script.js)
+</summary>
+
+![Custom JS (script.js)](documentation/validation/js-validation.PNG)
+</details>
+
+<details>
+<summary> Edit Booking Inline Script
+</summary>
+
+![Edit Booking Inline Script](documentation/validation/edit-booking-js-validation.PNG)
+</details>
+
+<details>
+<summary> Make a Booking Inline Script
+</summary>
+
+![Make a Booking Inline Script](documentation/validation/my-booking-js-validation.PNG)
+</details>
+
+### Python
+
+#### cabin_bookings app
+
+<details>
+<summary> admin.py
+</summary>
+
+![admin.py](documentation/validation/admin-python-validation.PNG)
+</details>
+
+<details>
+<summary> forms.py
+</summary>
+
+![forms.py](documentation/validation/forms-python-validation.PNG)
+</details>
+
+<details>
+<summary> models.py
+</summary>
+
+![models.py](documentation/validation/models-python-validation.PNG)
+</details>
+
+<details>
+<summary> views.py
+</summary>
+
+![views.py](documentation/validation/views-python-validation.PNG)
+</details>
+
+<details>
+<summary> urls.py
+</summary>
+
+![urls.py](documentation/validation/urls-python-validation.PNG)
+</details>
+
+#### woodland_retreat app
+
+<details>
+<summary> settings.py
+</summary>
+
+![settings.py](documentation/validation/settings-python-validation.PNG)
+</details>
+
+<details>
+<summary> urls.py
+</summary>
+
+![urls.py](documentation/validation/urls-woodland-python-validation.PNG)
+</details>
