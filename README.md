@@ -470,7 +470,8 @@ This data scheme allows for the management of users, amenities, cabins, and book
     * There are custom 404 and 500 error pages set up.
     * They contain buttons to redirect to home page if there is an error.
 
-![Error](documentation/readme_images/error.PNG)
+![Error 404](documentation/readme_images/error.PNG)
+![Error 500](documentation/readme_images/500-error-page.PNG)
 
 ### Features Left to Implement 
 

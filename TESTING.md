@@ -170,7 +170,7 @@ Device testing was conducted on a variety of phone models, including Samsung Gal
 <summary> 500 Error Page
 </summary>
 
-![500 Error Page]()
+![500 Error Page](documentation/validation/500-page-html-validation.PNG)
 </details>
 
 ### CSS Validation
