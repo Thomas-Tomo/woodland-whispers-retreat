@@ -483,3 +483,87 @@ This data scheme allows for the management of users, amenities, cabins, and book
 * [CSS Validation Service](https://jigsaw.w3.org/css-validator/) - Used to validate CSS
 * [CI Python Linter](https://pep8ci.herokuapp.com/#) - Used to validate Python
 * [Colormind](http://colormind.io/) - Color Scheme
+
+## Deployment and Local Developement
+
+Live deployment can be found on this [View Woodland Whispers Retreat live website here](https://woodland-whispers-retreat.herokuapp.com/)
+
+### Local Developement
+
+#### How to Fork
+1. Log in(or Sign Up) to Github
+2. Go to repository for this project [Woodland Whispers Retreat](https://github.com/Thomas-Tomo/woodland-whispers-retreat)
+3. Click the fork button in the top right corner
+
+#### How to Clone
+1. Log in(or Sign Up) to Github
+2. Go to repository for this project [Woodland Whispers Retreat](https://github.com/Thomas-Tomo/woodland-whispers-retreat)
+3. Click on the code button, select whether you would like to clone with HTTPS, SSH or GitHub CLI and copy the link shown.
+4. Open the terminal in your code editor and change the current working directory to the location you want to use for the cloned directory.
+5. Type the following command in the terminal (after the git clone you will need to paste the link you copied in step 3 above)
+6. Set up a virtual environment (this step is not required if you are using the Code Institute Template in GitPod as this will already be set up for you).
+7. Install the packages from the requirements.txt file - run Command pip3 install -r requirements.txt
+
+### ElephantSQL Database
+[Woodland Whispers Retreat](https://github.com/Thomas-Tomo/woodland-whispers-retreat) is using [ElephantSQL](https://www.elephantsql.com/) PostgreSQL Database
+
+1. Click Create New Instance to start a new database.
+2. Provide a name (this is commonly the name of the project: tribe).
+3. Select the Tiny Turtle (Free) plan.
+4. You can leave the Tags blank.
+5. Select the Region and Data Center closest to you.
+6. Once created, click on the new database name, where you can view the database URL and Password.
+
+### Cloudinary
+[Woodland Whispers Retreat](https://github.com/Thomas-Tomo/woodland-whispers-retreat) is using [Cloudinary](https://cloudinary.com/)
+1. For Primary interest, you can choose Programmable Media for image and video API.
+2. Optional: edit your assigned cloud name to something more memorable.
+3. On your Cloudinary Dashboard, you can copy your API Environment Variable.
+4. Be sure to remove the CLOUDINARY_URL= as part of the API value; this is the key.
+
+
+
+### Heroku Deployment
+* Log into [Heroku](https://www.heroku.com/) account or create an account.
+* Click the "New" button at the top right corner and select "Create New App".
+* Enter a unique application name
+* Select your region
+* Click "Create App"
+
+#### Prepare enviroment and settings.py
+* In your GitPod workspace, create an env.py file in the main directory.
+* Add the DATABASE_URL value and your chosen SECRET_KEY value to the env.py file.
+* Update the settings.py file to import the env.py file and add the SECRETKEY and DATABASE_URL file paths.
+* Comment out the default database configuration.
+* Save all files and make migrations.
+* Add the Cloudinary URL to env.py
+* Add the Cloudinary libraries to the list of installed apps.
+* Add the STATIC files settings - the url, storage path, directory path, root path, media url and default file storage path.
+* Link the file to the templates directory in Heroku.
+* Change the templates directory to TEMPLATES_DIR
+* Add Heroku to the ALLOWED_HOSTS list the format ['app_name.heroku.com', 'localhost']
+
+#### Add the following Config Vars in Heroku:
+
+* SECRET_KEY - This can be any Django random secret key
+* CLOUDINARY_URL - Insert your own Cloudinary API key
+* PORT = 8000
+* DISABLE_COLLECTSTATIC = 1 - this is temporary, and can be removed for the final deployment
+* DATABASE_URL - Insert your own ElephantSQL database URL here
+
+#### Heroku needs two additional files to deploy properly
+
+* requirements.txt
+* Procfile
+
+#### Deploy
+
+1. Make sure DEBUG = False in the settings.py
+2. Go to the deploy tab on Heroku and connect to GitHub, then to the required repository.
+3. Scroll to the bottom of the deploy page and either click Enable Automatic Deploys for automatic deploys or Deploy Branch to deploy manually. Manually deployed branches will need re-deploying each time the GitHub repository is updated.
+4. Click 'Open App' to view the deployed live site.
+
+Site is now live
+
+## Testing
+Please see  [TESTING.md]() for all the detailed testing performed.
