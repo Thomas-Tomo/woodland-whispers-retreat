@@ -446,3 +446,40 @@ This data scheme allows for the management of users, amenities, cabins, and book
 * Cabin Recommendations: Develop a recommendation engine that suggests cabins to users based on their previous bookings, interests, or preferences.
 * Online Payment: Implement an online payment system to allow users to securely make payments for their bookings directly through the website.
 * For the purposes of this project these implemenation were not necessary.
+
+## Technologies Used
+
+### Languages Used
+
+* [HTML5](https://en.wikipedia.org/wiki/HTML5)
+* [CSS3](https://en.wikipedia.org/wiki/CSS)
+* [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
+* [Python](https://en.wikipedia.org/wiki/Python_(programming_language))
+
+### Databases Used
+
+* [ElephantSQL](https://www.elephantsql.com/) - Postgres database
+* [Cloudinary](https://cloudinary.com/) - Online static file storage
+
+### Frameworks Used
+
+* [Django](https://www.djangoproject.com/) - Python framework
+* [Bootstrap 4.6.1](https://getbootstrap.com/docs/4.6/getting-started/introduction/) - CSS framework
+
+### Programs Used
+
+* [Github](https://github.com/) - Storing the code online
+* [Gitpod](https://www.gitpod.io/) - To write the code.
+* [Heroku](https://www.heroku.com/) - Used as the cloud-based platform to deploy the site.
+* [Google Fonts](https://fonts.google.com/) - Import main font the website.
+* [Figma](https://www.figma.com/) - Used to create wireframes and schemes
+* [Craiyon](https://www.craiyon.com/) - Generate AI images of cabins and logo based on my words descriptions
+* [Am I Responsive](https://ui.dev/amiresponsive) - To show the website image on a range of devices.
+* [Git](https://git-scm.com/) - Version control
+* [Jinja](https://jinja.palletsprojects.com/en/3.1.x/) - Templating engine
+* [Favicon Generator](https://realfavicongenerator.net/) - Used to create a favicon
+* [JSHint](https://jshint.com/) - Used to validate JavaScript
+* [W3C Markup Validation Service](https://validator.w3.org/) - Used to validate HTML
+* [CSS Validation Service](https://jigsaw.w3.org/css-validator/) - Used to validate CSS
+* [CI Python Linter](https://pep8ci.herokuapp.com/#) - Used to validate Python
+* [Colormind](http://colormind.io/) - Color Scheme
