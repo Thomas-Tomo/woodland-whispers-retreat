@@ -120,3 +120,133 @@ Detailed look can be found in the [project board](https://github.com/users/Thoma
 * Management of amenity options, such as adding, updating, or removing amenities.
 * Ability to delete user accounts, providing the necessary control for managing user data and accounts.
 * Management of bookings, including the ability to view, modify, or delete bookings as needed.
+
+## Design
+
+The Woodland Whispers Retreat website boasts an inviting and visually pleasing design. Earthy tones and a warm color palette evoke a sense of tranquility. The navigation bar features a circular logo and easy-to-read text. Captivating photos are displayed in a bordered carousel with elegant captions. The about section utilizes a dark background and horizontal lines for clarity. Social media links are presented in the contact section, and the footer complements the overall design.
+
+### Color Scheme
+![Color Scheme](documentation/readme_images/color-scheme.PNG)
+
+### Cabin Images
+
+All cabin images were created using Artificial Inteligence, AI image generator [Craiyon](https://www.craiyon.com/).
+
+### Logo
+
+Logo was also created using AI image generator [Craiyon](https://www.craiyon.com/).
+
+### Typography
+
+The 'Lora' font is specified as the primary font, and the 'Domine' font is specified as a fallback font.
+
+### Wireframes
+
+<details>
+<summary> Home Page
+</summary>
+
+![Home Page](documentation/wireframes/home-page.PNG)
+</details>
+
+<details>
+<summary> Home Page when logged in
+</summary>
+
+![Home Page when logged in](documentation/wireframes/home-page-logged-in.PNG)
+</details>
+
+<details>
+<summary> Contact Page
+</summary>
+
+![Contact Page](documentation/wireframes/contact-page.PNG)
+</details>
+
+<details>
+<summary> Cabin Booking Page
+</summary>
+
+![Cabin Booking Page](documentation/wireframes/cabin-booking-page.PNG)
+</details>
+
+<details>
+<summary> Make a Booking Page
+</summary>
+
+![Make a Booking Page](documentation/wireframes/make-a-booking-page.PNG)
+</details>
+
+<details>
+<summary> My Booking Page
+</summary>
+
+![My Booking Page](documentation/wireframes/my-booking-page.PNG)
+</details>
+
+<details>
+<summary> Edit Booking Page
+</summary>
+
+![Edit Booking Page](documentation/wireframes/edit-booking-page.PNG)
+</details>
+
+<details>
+<summary> Delete Booking Page
+</summary>
+
+![Delete Booking Page](documentation/wireframes/delete-booking-page.PNG)
+</details>
+
+<details>
+<summary> User Login Page
+</summary>
+
+![User Login Page](documentation/wireframes/user-login-page.PNG)
+</details>
+
+<details>
+<summary> User Logout Page
+</summary>
+
+![User Logout Page](documentation/wireframes/user-logout-page.PNG)
+</details>
+
+<details>
+<summary> User Sign Up Page
+</summary>
+
+![User Sign Up Page](documentation/wireframes/user-sign-up-page.PNG)
+</details>
+
+### Data Models
+
+1. AllAuth User Model
+    * Django Allauth, the User model is the default user model provided by the Django authentication system
+    * The User entity has a one-to-many relationship with the Booking entity. This means that a User can have multiple Bookings, but each Booking is associated with only one User.
+---
+2. Amenity Model
+    * Data model created so admin can add amenities to the cabin booking, and regulate the name and price of the amenities
+    * Only Admin can change the data in the backend.
+    * User can book those amenities through the Booking Model
+    * An Amenity can be associated with multiple Cabins, and a Cabin can have multiple Amenities. This is represented by the many-to-many relationship between Amenity and Cabin.
+    * There are two amenites set up, which are cave exploration and kayak rental
+---
+3. Cabin Model
+    * A Cabin can have multiple Bookings, but each Booking is associated with only one Cabin. This is represented by the foreign key relationship between Cabin and Booking.
+    * Admin can add cabins through djangos admin panel.
+    * Only Admin can change the data in the backend.
+    * User can see the cabin information and image based on the chosen cabin.
+    * Information provided is price, image, description, number of bedrooms, maximum guests, amenities
+---
+4. Booking Model
+    * A User can have multiple Bookings, but each Booking is associated with only one User. This is represented by the foreign key relationship between User and Booking.
+    * Booking model has a feature that prevents overlapping bookings, so users dont book on the same dates
+    * Total price is also calculated in the backend that is then displayed to user to show the total price of the booking, that includes if a user also adds amenities to the booking.
+    * Full CRUD functionality is available to the user.
+    * User in order to book has to fill check-in, check-out dates, number of guests and optional amenities
+    ---
+
+### User Journey 
+
+![User Journey](documentation/readme_images/user-journey.PNG)
