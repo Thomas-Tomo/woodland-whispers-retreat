@@ -345,3 +345,29 @@ Device testing was conducted on a variety of phone models, including Samsung Gal
 
 ![Delete Booking Page](documentation/lighthouse_report/delete-booking-lighthouse.PNG)
 </details>
+
+## Bugs
+
+### Resolved Bugs
+
+#### Refused to apply style from Woodland Whispers site link because its MIME type(text/html).
+
+* When I have deployed the site to Heroku for the first time, my custom CSS was not working, it was due to Cloudinary not providing my static files, I had to change my DEBUG = True to DEBUG = development, development = os.environ.get('DEVELOPMENT'), which is connected to my Gitpod variable DEVELOPMENT  which is set to True, meaning deployed site is set to False and production is set to True, I had to delete my static files from Cloudinary and force a manual deploy again and it picked up the files and everything works since then.
+
+#### Flatpick not reloading
+
+ * Page is reloaded by ensuring the bookedDates array is correctly populated with booked dates before initializing the flatpickr date picker. This is achieved by checking if the booked_dates_json variable is truthy, parsing it as JSON, and using the resulting array for flatpickr's disable option. The DOMContentLoaded event listener guarantees proper timing for the flatpickr initialization.
+
+#### Specified Value 'None'
+
+* Fixed a bug in edit_booking template, if user didin't book amenities when user would go to edit his booking, in console log there was a message statin 'The specified value 'None' cannot be parsed or is out of range, that is because if amenities was left empty it would have value None instead of intended 0 value. That was fixed by adding a default_if_none:'0' to make sure if amenities were left empty the form isself would apply 0 value to them and removing the issue.
+
+### Unresolved Bug
+
+#### Flatpick activates after booking is made on some phone devices
+
+* It's possible that the bug is related to the mobile environment or specific device configurations
+
+* On certain mobile devices, the Flatpickr calendar component doesn't activate until a cabin has been booked by any user yet. Prior to any bookings, the calendar displays a standard design instead of the expected Flatpickr layout. However, rest assured, this issue has no adverse impact on the user experience. The discrepancy in appearance is merely temporary and limited to the initial state until a booking is made. Once a cabin is reserved, Flatpickr seamlessly takes over, providing the intended functionality.
+
+* It means if the cabin hasn't been booked by anyone this might make some phones use a standard calendar until the first booking is made, after that it works as expected and has no negative impact on the user experience.
