@@ -27,13 +27,8 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# Use this one for Heroku deployment
-# development = os.environ.get('DEVELOPMENT')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-
-# Use this for Heroku deployment
-# DEBUG = development
 DEBUG = False
 
 ALLOWED_HOSTS = ['woodland-whispers-retreat.herokuapp.com',
@@ -100,12 +95,6 @@ WSGI_APPLICATION = 'woodland_retreat.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 DATABASES = {
      'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
