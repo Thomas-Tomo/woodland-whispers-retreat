@@ -50,143 +50,24 @@ def booking_create(request, cabin_id):
     errors, and handles various validation cases. If the booking is
     successfully created, it redirects to the booking success page.
     """
-    cabin = Cabin.objects.get(id=cabin_id)
+    cabin = get_object_or_404(Cabin, id=cabin_id)
 
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            # Process form data and perform validations
-            booking = form.save(commit=False)
-            booking.cabin = cabin
-            booking.user = request.user
+            # Check if check-in and check-out dates are provided
+            check_in_date = form.cleaned_data['check_in_date']
+            check_out_date = form.cleaned_data['check_out_date']
 
-            num_guests = form.cleaned_data['num_guests']
-            if num_guests <= 0:
-                # Check if the number of guests is greater than zero
-                form.add_error(
-                    'num_guests',
-                    "The number of guests must be greater than zero."
-                )
-                messages.warning(
-                    request,
-                    "The number of guests must be greater than zero."
-                )
-            elif num_guests > booking.cabin.max_guests:
-                # Check if the number of guests exceeds the maximum allowed
-                form.add_error(
-                    'num_guests',
-                    "Exceeds maximum guests allowed."
-                )
-                messages.warning(
-                    request,
-                    "Exceeds maximum guests allowed."
-                )
+            if not check_in_date:
+                messages.warning(request, "Please select a check-in date.")
+            elif not check_out_date:
+                messages.warning(request, "Please select a check-out date.")
             else:
-                check_in_date = form.cleaned_data['check_in_date']
-                check_out_date = form.cleaned_data['check_out_date']
-                today = timezone.now().date()
-
-                if check_in_date < today:
-                    # Check if the check-in date is in the past
-                    form.add_error(
-                        'check_in_date',
-                        "Please select a future check-in date."
-                    )
-                    messages.warning(
-                        request,
-                        "Please select a future check-in date."
-                    )
-                elif check_out_date < check_in_date:
-                    # Check if check-out date is earlier than the check-in date
-                    form.add_error(
-                        'check_out_date',
-                        "Check-out date can't be earlier than check-in date."
-                    )
-                    messages.warning(
-                        request,
-                        "Check-out date can't be earlier than check-in date."
-                    )
-                elif check_in_date == check_out_date:
-                    # Check if check-in date and check-out date are the same
-                    form.add_error(
-                        'check_out_date',
-                        "Check-out date can't be the same as check-in date."
-                    )
-                    messages.warning(
-                        request,
-                        "Check-out date can't be the same as check-in date."
-                    )
-                else:
-                    # Check if there are any overlapping bookings
-                    existing_bookings = Booking.objects.filter(
-                        cabin=cabin,
-                        check_in_date__lte=check_out_date,
-                        check_out_date__gte=check_in_date,
-                    )
-                    if existing_bookings.exists():
-                        form.add_error(
-                            None,
-                            "Cabin already booked for the selected dates"
-                        )
-                        messages.warning(
-                            request,
-                            "Cabin already booked for the selected dates"
-                        )
-                    else:
-                        # Check additional validations
-                        cave_exploration_tickets = form.cleaned_data.get(
-                                                   'cave_exploration_tickets')
-                        kayak_rentals = form.cleaned_data.get('kayak_rentals')
-
-                        if cave_exploration_tickets and (
-                                cave_exploration_tickets < 0 or
-                                cave_exploration_tickets > num_guests):
-                            form.add_error(
-                                'cave_exploration_tickets',
-                                "Cave exploration tickets can't be negative."
-                            )
-                            messages.warning(
-                                request,
-                                "Tickets can't exceed num of selected guests."
-                            )
-
-                        if kayak_rentals and (
-                                kayak_rentals < 0 or kayak_rentals > 10):
-                            form.add_error(
-                                'kayak_rentals',
-                                "Kayak rental ranges from 0 to 10"
-                            )
-                            messages.warning(
-                                request,
-                                "Kayak rental ranges from 0 to 10"
-                            )
-
-                        cave_exploration_tickets = cave_exploration_tickets or 0  # noqa
-                        kayak_rentals = kayak_rentals or 0
-
-                        if not form.errors:
-                            duration = (check_out_date - check_in_date).days
-                            # Calculate total price
-                            total_price = cabin.price * duration
-
-                            total_price += (
-                                cave_exploration_tickets * Amenity.objects.get(
-                                    name='Cave Exploration').price)
-                            total_price += (
-                                kayak_rentals * Amenity.objects.get(
-                                    name='Kayak Rental').price)
-
-                            booking.total_price = total_price
-                            booking.save()
-                            messages.success(
-                                request,
-                                "New booking created successfully."
-                            )
-                            return redirect(
-                                'booking_success',
-                                cabin_id=cabin.id,
-                                booking_id=booking.id
-                            )
+                booking = process_booking_form(request, form, cabin)
+                if booking:
+                    return redirect('booking_success',
+                                    cabin_id=cabin.id, booking_id=booking.id)
         else:
             # Handle form validation errors
             for field, errors in form.errors.items():
@@ -198,16 +79,12 @@ def booking_create(request, cabin_id):
                         )
     else:
         form = BookingForm()
-    # Get booked dates for the cabin
-    booked_dates = Booking.objects.filter(cabin=cabin).values_list(
-        'check_in_date',
-        'check_out_date'
-    )
 
-    booked_dates_str = [
-        [str(check_in_date), str(check_out_date)]
-        for check_in_date, check_out_date in booked_dates
-    ]
+    booked_dates = Booking.objects.filter(
+                   cabin=cabin).values_list('check_in_date', 'check_out_date')
+    booked_dates_str = [[str(check_in_date),
+                         str(check_out_date)] for
+                        check_in_date, check_out_date in booked_dates]
 
     context = {
         'cabin': cabin,
@@ -215,6 +92,104 @@ def booking_create(request, cabin_id):
         'booked_dates_json': json.dumps(booked_dates_str),
     }
     return render(request, 'my_booking.html', context)
+
+
+@login_required
+def process_booking_form(request, form, cabin):
+    """
+    Process form data, perform validations, and create a new booking.
+    Returns the newly created booking if successful, or None otherwise.
+    """
+    booking = form.save(commit=False)
+    booking.cabin = cabin
+    booking.user = request.user
+
+    num_guests = form.cleaned_data['num_guests']
+    if num_guests <= 0:
+        form.add_error(
+            'num_guests', "The number of guests must be greater than zero.")
+        messages.warning(
+            request, "The number of guests must be greater than zero.")
+
+    elif num_guests > cabin.max_guests:
+        form.add_error('num_guests', "Exceeds maximum guests allowed.")
+        messages.warning(request, "Exceeds maximum guests allowed.")
+    else:
+        check_in_date = form.cleaned_data['check_in_date']
+        check_out_date = form.cleaned_data['check_out_date']
+        today = timezone.now().date()
+
+        if check_in_date < today:
+            form.add_error(
+                'check_in_date', "Please select a future check-in date.")
+            messages.warning(
+                request, "Please select a future check-in date.")
+        elif check_out_date < check_in_date:
+            form.add_error(
+                'check_out_date',
+                "Check-out date can't be earlier than check-in date.")
+            messages.warning(
+                request, "Check-out date can't be earlier than check-in date.")
+        elif check_in_date == check_out_date:
+            form.add_error(
+                'check_out_date',
+                "Check-out date can't be the same as check-in date.")
+            messages.warning(
+                request, "Check-out date can't be the same as check-in date.")
+        else:
+            booked_dates = Booking.objects.filter(
+                cabin=cabin).exclude(id=booking.id)
+
+            # Check for overlapping bookings
+            overlapping_bookings = booked_dates.filter(
+                check_in_date__lte=check_out_date,
+                check_out_date__gte=check_in_date
+            )
+
+            if overlapping_bookings.exists():
+                form.add_error(
+                    None, "Cabin already booked for the selected dates")
+                messages.warning(
+                    request, "Cabin already booked for the selected dates")
+            else:
+                # Check amenities validations
+                cave_exploration_tickets = form.cleaned_data.get(
+                    'cave_exploration_tickets') or 0
+                kayak_rentals = form.cleaned_data.get('kayak_rentals') or 0
+
+                if cave_exploration_tickets and (
+                        cave_exploration_tickets < 0 or
+                        cave_exploration_tickets > num_guests):
+                    form.add_error(
+                        'cave_exploration_tickets',
+                        "Cave exploration tickets can't be negative.")
+                    messages.warning(
+                        request,
+                        "Tickets can't exceed the number of selected guests.")
+
+                if kayak_rentals and (kayak_rentals < 0 or kayak_rentals > 10):
+                    form.add_error(
+                        'kayak_rentals', "Kayak rental ranges from 0 to 10")
+                    messages.warning(
+                        request, "Kayak rental ranges from 0 to 10")
+
+                if not form.errors:
+                    duration = (check_out_date - check_in_date).days
+                    # Calculate total price
+                    total_price = cabin.price * duration
+
+                    total_price += cave_exploration_tickets * Amenity.objects.get(name='Cave Exploration').price  # noqa
+                    total_price += kayak_rentals * Amenity.objects.get(
+                        name='Kayak Rental').price
+
+                    booking.total_price = total_price
+                    booking.save()
+
+                    messages.success(
+                        request, "New booking created successfully.")
+                    return booking
+
+    return None
 
 
 @login_required
@@ -260,142 +235,27 @@ def booking_overview(request):
 @login_required
 def edit_booking(request, booking_id):
     """
-    This function handles the editing of an existing booking identified
-    by the provided booking_id. It performs form validation, checks for
-    validation errors, and handles various validation cases. If the
-    booking is successfully updated, it redirects to the booking overview page.
+    Edit an existing booking and update it based on the provided
+    form data and validation rules.
     """
     booking = get_object_or_404(Booking, id=booking_id, user=request.user)
     booked_dates = Booking.objects.filter(
-                   cabin=booking.cabin).exclude(id=booking_id)
+        cabin=booking.cabin).exclude(id=booking_id)
 
     if request.method == 'POST':
         form = BookingForm(request.POST, instance=booking)
         if form.is_valid():
-            # Process form data and perform validations
-            num_guests = form.cleaned_data['num_guests']
-            if num_guests <= 0:
-                # Check if the number of guests is greater than zero
-                form.add_error(
-                    'num_guests',
-                    "The number of guests must be greater than zero."
-                )
-                messages.warning(
-                    request,
-                    "The number of guests must be greater than zero."
-                )
-            elif num_guests > booking.cabin.max_guests:
-                # Check if the number of guests exceeds the maximum allowed
-                form.add_error(
-                    'num_guests',
-                    "Exceeds maximum guests allowed."
-                )
-                messages.warning(
-                    request,
-                    "Exceeds maximum guests allowed."
-                )
+            update_result = update_booking(
+                request, form, booking, booked_dates)
+            if isinstance(update_result, Booking):
+                # If update_booking returns a Booking object,
+                # the update was successful
+                messages.success(request, "Booking updated successfully.")
+                return redirect('booking_overview')
             else:
-                check_in_date = form.cleaned_data['check_in_date']
-                check_out_date = form.cleaned_data['check_out_date']
-                today = timezone.now().date()
-
-                if check_in_date < today:
-                    # Check if the check-in date is in the past
-                    form.add_error(
-                        'check_in_date',
-                        "Please select a future check-in date."
-                    )
-                    messages.warning(
-                        request,
-                        "Please select a future check-in date."
-                    )
-                elif check_out_date < check_in_date:
-                    # Check if check-out date is earlier than the check-in date
-                    form.add_error(
-                        'check_out_date',
-                        "Check-out date can't be earlier than check-in date."
-                    )
-                    messages.warning(
-                        request,
-                        "Check-out date can't be earlier than check-in date."
-                    )
-                elif check_in_date == check_out_date:
-                    # Check if check-in date and check-out date are the same
-                    form.add_error(
-                        'check_out_date',
-                        "Check-out date can't be the same as check-in date."
-                    )
-                    messages.warning(
-                        request,
-                        "Check-out date can't be the same as check-in date."
-                    )
-                else:
-                    # Check if there are any overlapping bookings
-                    overlapping_bookings = booked_dates.filter(
-                        check_in_date__lte=check_out_date,
-                        check_out_date__gte=check_in_date
-                    )
-
-                    if overlapping_bookings.exists():
-                        form.add_error(
-                            None,
-                            "Cabin already booked for the selected dates"
-                        )
-                        messages.warning(
-                            request,
-                            "Cabin already booked for the selected dates"
-                        )
-                    else:
-                        # Check additional validations
-                        cave_exploration_tickets = form.cleaned_data.get(
-                                                   'cave_exploration_tickets')
-                        kayak_rentals = form.cleaned_data.get('kayak_rentals')
-
-                        if cave_exploration_tickets and (
-                                cave_exploration_tickets < 0 or
-                                cave_exploration_tickets > num_guests):
-                            form.add_error(
-                                'cave_exploration_tickets',
-                                "Tickets can't exceed num of selected guests."
-                            )
-                            messages.warning(
-                                request,
-                                "Tickets can't exceed num of selected guests."
-                            )
-
-                        if kayak_rentals and (
-                                kayak_rentals < 0 or kayak_rentals > 10):
-                            form.add_error(
-                                'kayak_rentals',
-                                "Kayak rental ranges from 0 to 10"
-                            )
-                            messages.warning(
-                                request,
-                                "Kayak rental ranges from 0 to 10"
-                            )
-
-                        if not form.errors:
-                            # Calculate the total price
-                            duration = (check_out_date - check_in_date).days
-                            total_price = booking.cabin.price * duration
-
-                            total_price += (
-                                cave_exploration_tickets or
-                                0) * Amenity.objects.get(
-                                name='Cave Exploration').price
-                            total_price += (
-                                kayak_rentals or
-                                0) * Amenity.objects.get(
-                                name='Kayak Rental').price
-
-                            booking.total_price = total_price
-                            booking.save()
-
-                            messages.success(
-                                request,
-                                "Booking updated successfully."
-                            )
-                            return redirect('booking_overview')
+                # If update_booking returns a form with errors,
+                # render the form again with errors
+                form = update_result
         else:
             # Handle form validation errors
             for field, errors in form.errors.items():
@@ -403,16 +263,17 @@ def edit_booking(request, booking_id):
                     if field != '__all__':
                         messages.warning(
                             request,
-                            f"{form[field].label}: {error}"
-                        )
+                            f"{form[field].label}: {error}")
     else:
         form = BookingForm(instance=booking, initial={
             'cave_exploration_tickets': booking.cave_exploration_tickets,
             'kayak_rentals': booking.kayak_rentals,
         })
 
+    # Prepare the booked_dates data in JSON format for use in the template
     booked_dates = booked_dates.values_list('check_in_date', 'check_out_date')
-    booked_dates_str = [[str(check_in_date), str(check_out_date)] for
+    booked_dates_str = [[str(check_in_date),
+                        str(check_out_date)] for
                         check_in_date, check_out_date in booked_dates]
 
     context = {
@@ -423,6 +284,111 @@ def edit_booking(request, booking_id):
     }
 
     return render(request, 'edit_booking.html', context)
+
+
+@login_required
+def update_booking(request, form, booking, booked_dates):
+    """
+    Updates an existing booking based on the provided form data
+    and validation rules.
+    """
+    num_guests = form.cleaned_data['num_guests']
+    if num_guests <= 0:
+        form.add_error(
+            'num_guests',
+            "The number of guests must be greater than zero.")
+        messages.warning(
+            request,
+            "The number of guests must be greater than zero.")
+    elif num_guests > booking.cabin.max_guests:
+        form.add_error('num_guests', "Exceeds maximum guests allowed.")
+        messages.warning(request, "Exceeds maximum guests allowed.")
+    else:
+        check_in_date = form.cleaned_data['check_in_date']
+        check_out_date = form.cleaned_data['check_out_date']
+        today = timezone.now().date()
+
+        # Check date validity
+        if check_in_date < today:
+            form.add_error(
+                'check_in_date',
+                "Please select a future check-in date.")
+            messages.warning(
+                request,
+                "Please select a future check-in date.")
+        elif check_out_date < check_in_date:
+            form.add_error(
+                'check_out_date',
+                "Check-out date can't be earlier than check-in date.")
+            messages.warning(
+                request,
+                "Check-out date can't be earlier than check-in date.")
+        elif check_in_date == check_out_date:
+            form.add_error(
+                'check_out_date',
+                "Check-out date can't be the same as check-in date.")
+            messages.warning(
+                request,
+                "Check-out date can't be the same as check-in date.")
+        else:
+            booked_dates = Booking.objects.filter(
+                cabin=booking.cabin).exclude(id=booking.id)
+
+            # Check for overlapping bookings
+            overlapping_bookings = booked_dates.filter(
+                check_in_date__lte=check_out_date,
+                check_out_date__gte=check_in_date
+            )
+
+            if overlapping_bookings.exists():
+                form.add_error(
+                    None, "Cabin already booked for the selected dates")
+                messages.warning(
+                    request, "Cabin already booked for the selected dates")
+            else:
+                # Check amenities validations
+                cave_exploration_tickets = form.cleaned_data.get(
+                    'cave_exploration_tickets') or 0
+                kayak_rentals = form.cleaned_data.get(
+                    'kayak_rentals') or 0
+
+                if cave_exploration_tickets and (
+                    cave_exploration_tickets < 0 or
+                        cave_exploration_tickets > num_guests):
+                    form.add_error(
+                        'cave_exploration_tickets',
+                        "Tickets can't exceed the number of selected guests.")
+                    messages.warning(
+                        request,
+                        "Tickets can't exceed the number of selected guests.")
+
+                if kayak_rentals and (kayak_rentals < 0 or kayak_rentals > 10):
+                    form.add_error(
+                        'kayak_rentals',
+                        "Kayak rental ranges from 0 to 10")
+                    messages.warning(
+                        request,
+                        "Kayak rental ranges from 0 to 10")
+
+                if not form.errors:
+                    # Calculate the total price
+                    duration = (check_out_date - check_in_date).days
+                    total_price = booking.cabin.price * duration
+
+                    total_price += (
+                        cave_exploration_tickets * Amenity.objects.get(
+                            name='Cave Exploration').price)
+                    total_price += (
+                        kayak_rentals * Amenity.objects.get(
+                            name='Kayak Rental').price)
+
+                    # Update the booking object with the new total price
+                    booking.total_price = total_price
+                    booking.save()
+
+                    return booking  # Return the booking object
+
+    return form  # Return the form object with validation errors
 
 
 @login_required
