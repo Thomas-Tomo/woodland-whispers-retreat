@@ -245,15 +245,15 @@ def edit_booking(request, booking_id):
     if request.method == 'POST':
         form = BookingForm(request.POST, instance=booking)
         if form.is_valid():
-            update_result = update_booking(
+            update_result = validate_edit_booking(
                 request, form, booking, booked_dates)
             if isinstance(update_result, Booking):
-                # If update_booking returns a Booking object,
+                # If validate_edit_booking returns a Booking object,
                 # the update was successful
                 messages.success(request, "Booking updated successfully.")
                 return redirect('booking_overview')
             else:
-                # If update_booking returns a form with errors,
+                # If validate_edit_booking returns a form with errors,
                 # render the form again with errors
                 form = update_result
         else:
@@ -287,7 +287,7 @@ def edit_booking(request, booking_id):
 
 
 @login_required
-def update_booking(request, form, booking, booked_dates):
+def validate_edit_booking(request, form, booking, booked_dates):
     """
     Updates an existing booking based on the provided form data
     and validation rules.
